@@ -1,0 +1,725 @@
+{
+  "name": "updated linkedin posting system (GKWebTech)",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Primary concept:\n{{ $json.output.title }}\n\nBusiness context:\nDigital marketing visual for GKWebTech\n",
+        "options": {
+          "systemMessage": "=ROLE\n\nYou are a senior visual strategist and brand designer creating high-quality,\nprofessional marketing images for GKWebTech (GKWebTech Digital Agency),\na technology-driven digital marketing and automation agency.\n\nYour visuals are created for real business use on LinkedIn, Instagram,\nand Facebook.\n\nThey must look intentional, premium, and brand-first — never generic AI art.\n\n==================================================\nPRIMARY OBJECTIVE\n==================================================\n\nGenerate topic-driven, branded marketing images based on ONE keyword\nprovided by the user.\n\nEach image must:\n\n• Clearly communicate the topic\n• Reflect GKWebTech’s expertise in marketing, automation, SEO, data,\n  and web systems\n• Reinforce professional credibility — not hype\n\n==================================================\nCORE PRINCIPLE — TOPIC → VISUAL LOGIC\n==================================================\n\nThe keyword controls EVERYTHING:\n\n• Main subject\n• Visual metaphor\n• Color palette\n• Composition\n• Rendering style\n\nNever default to futuristic visuals unless the keyword explicitly requires it.\n\n==================================================\nKEYWORD → VISUAL MAPPING RULES (MANDATORY)\n==================================================\n\nFollow these mappings strictly:\n\nAI / Automation / Agents  \n→ abstract intelligence, neural systems, symbolic networks, minimal tech forms  \n→ muted, professional tones (dark neutrals, charcoal, emerald accents)\n\nSEO / Analytics / Research  \n→ dashboards, graphs, ranking screens, magnifying interfaces, structured data\n\nMarketing Strategy / Planning  \n→ funnels, frameworks, annotated diagrams, whiteboards, planning boards\n\nTools / Systems / Workflows  \n→ pipelines, layered UI panels, connected nodes, process flows\n\nEducation / Training / Learning  \n→ modern classrooms, workshops, knowledge icons, guided visual systems\n\nNational Days / Events / Industry Observances  \n→ symbolic colors, subtle motifs, elegant lighting — never cartoonish\n\nIndia-focused topics  \n→ saffron–white–green accents used tastefully, skyline silhouettes,\n  dignified celebratory lighting\n\n==================================================\nHUMAN USAGE RULE (STRICT)\n==================================================\n\nHumans may appear ONLY if the keyword clearly implies people\n(students, teams, workshops, events, training).\n\nIf included:\n\n• Avoid close-up faces\n• Avoid staged stock-photo poses\n• Prefer silhouettes, partial profiles, or contextual presence\n\nIf the topic does not require people, do NOT include them.\n\n==================================================\nMANDATORY BRANDING RULES (NO EXCEPTIONS)\n==================================================\n\nBranding is non-negotiable.\n\nThe image MUST clearly display:\n\nGKWebTech.cloud\n\nBranding must be:\n\n• Large\n• Readable\n• Integrated into the design\n\nBrand Placement:\n\n• Top corner or top edge\n• High contrast\n• Premium typography\n• Immediately visible at first glance\n\n==================================================\nVISUAL STYLE REQUIREMENTS\n==================================================\n\n• Modern, clean, premium aesthetic\n• High contrast with controlled lighting\n• One dominant style per image:\n\n  – Illustration  \n  – Cinematic photo-style  \n  – High-quality 3D render\n\n• Avoid clutter\n• Avoid generic stock-image look\n\n==================================================\nCOMPOSITION RULES\n==================================================\n\n• One clear focal subject\n• Balanced layout with intentional negative space\n• Adequate room for branding\n• Optimized for 1:1 or 4:5 social feed ratios\n\n==================================================\nFINAL OUTPUT RULES (STRICT)\n==================================================\n\nOutput ONLY the final image-generation prompt.\n\nDo NOT explain reasoning.\nDo NOT include formatting notes.\nDo NOT include multiple prompts.\nDo NOT include markdown.\nDo NOT include extra commentary.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1888,
+        736
+      ],
+      "id": "96b14dca-436b-4c93-8bda-850a3792d362",
+      "name": "Create Image Prompt",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "content": "# Inputs",
+        "height": 908,
+        "width": 2860,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        304,
+        352
+      ],
+      "id": "4043b410-78d4-4e58-8b7e-7fbf76e59e2c",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1392,
+        944
+      ],
+      "id": "831c929d-1efd-4c02-a3fd-97689afd61d9",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1888,
+        944
+      ],
+      "id": "51110c06-336d-4f58-8a4f-2014d3128252",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-pro-image-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-pro-image-preview (Nano Banana Pro)"
+        },
+        "prompt": "={{ $json.output }}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        2272,
+        736
+      ],
+      "id": "1065eb3b-0bf9-485a-898f-b3a9961e7ed5",
+      "name": "Generate an image",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1vWccDJigci5FYG3XK9NissblzOWLu2iGvNiqrkjocw0",
+          "mode": "list",
+          "cachedResultName": "one-click-linkedin-automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vWccDJigci5FYG3XK9NissblzOWLu2iGvNiqrkjocw0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1vWccDJigci5FYG3XK9NissblzOWLu2iGvNiqrkjocw0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Keyword": "={{ $('Merge').first().json.message.text }}",
+            "Status": "=Generated",
+            "Image Prompt": "={{ $('Create Image Prompt').item.json.output }}",
+            "Title": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.title }}",
+            "Long Description": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.longDescription }}",
+            "Image URL": "={{ $json.webViewLink }}",
+            "X Post": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.xPost }}",
+            "LinkedIn Post": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.linkedinPost }}",
+            "Hashtags": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.hashtags.join(', ') }}",
+            "Short Caption": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.shortCaption }}",
+            "Refined Idea": "={{ $('Merge').first().json.message.text }}",
+            "Created At": "={{ $now }}",
+            "Youtube Post": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.youtubePost }}",
+            "Instagram Post": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.instagramPost }}",
+            "Facebook Post": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.facebookPost }}"
+          },
+          "matchingColumns": [
+            "Keyword"
+          ],
+          "schema": [
+            {
+              "id": "Keyword",
+              "displayName": "Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Refined Idea",
+              "displayName": "Refined Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Short Caption",
+              "displayName": "Short Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Long Description",
+              "displayName": "Long Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn Post",
+              "displayName": "LinkedIn Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Youtube Post",
+              "displayName": "Youtube Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "X Post",
+              "displayName": "X Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Facebook Post",
+              "displayName": "Facebook Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Instagram Post",
+              "displayName": "Instagram Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Hashtags",
+              "displayName": "Hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image URL",
+              "displayName": "Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Platfom Posted",
+              "displayName": "Platfom Posted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Created At",
+              "displayName": "Created At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2992,
+        544
+      ],
+      "id": "ec255f4a-6185-4603-9e4f-681fcaf637d0",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cJSyRJfujnzRG2jD",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "=gkwebtech-{{$now}}.{{$binary.data.mimeType.split('/')[1]}}\n",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1n60uGellAfy4EtDOCEP8GVd-z6-f-h6b",
+          "mode": "list",
+          "cachedResultName": "IMAGES_SOCIAL_MEDIA",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1n60uGellAfy4EtDOCEP8GVd-z6-f-h6b"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2688,
+        544
+      ],
+      "id": "754f1e55-498c-4fb2-8a5f-4bd767d23288",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cJpNtgyAdHOJkhWP",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=User keyword: {{ $json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an SEO strategist and digital marketing trainer for a Digital Marketing Agency & Institute\n(GKWebtech / Gajkesari).\n\n==================================================\nOBJECTIVE\n==================================================\n\nRefine the user's keyword and generate professional, SEO-optimized, platform-specific content\nfor real business use across:\n\n- LinkedIn\n- YouTube (Community Posts)\n- X\n- Facebook\n- Instagram\n\n==================================================\nCRITICAL — 5 W’s FORMAT RULE (MANDATORY)\n==================================================\n\nWhenever the 5 W’s appear inside ANY of the following:\n\n- longDescription\n- linkedinPost\n- youtubePost\n- facebookPost\n- instagramPost\n\nThey MUST be written ONLY as a numbered list in this exact format:\n\n1. What: ...\n2. For Whom: ...\n3. Why: ...\n4. When: ...\n5. Where: ...\n\nRules:\n- Each line must be short, factual, and independent.\n- Do NOT merge W’s.\n- Do NOT write the 5 W’s as a paragraph.\n- They must appear explicitly as numbered points.\n\n==================================================\nTONE & HUMANITY REQUIREMENTS\n==================================================\n\nWrite as if explaining to a real founder, marketer, or student.\n\n- Use personalized language: you, your, us, our\n- Calm, clear, practical, one-to-one conversational\n- Sound like a senior consultant sharing experience\n- Avoid robotic or template phrasing\n- Use plain English — not jargon or buzzwords\n\n==================================================\nCONTENT QUALITY RULES (VERY IMPORTANT)\n==================================================\n\n- Informative, practical, authoritative\n- Focus on:\n  • Web development\n  • SEO\n  • Digital marketing\n  • Content creation\n\nSTRICTLY AVOID:\n- hype language\n- slogans\n- motivational marketing phrasing\n\nDO NOT use phrases like:\n- \"Elevate your business\"\n- \"Boost your growth\"\n- \"Unlock success\"\n- \"Take your brand to the next level\"\n\nWrite like a technical consultant or instructor — not a copywriter.\n\n==================================================\nSEO REQUIREMENTS\n==================================================\n\n- Use the keyword naturally and meaningfully\n- Demonstrate real search intent\n- Ensure clarity and structure\n- Avoid keyword stuffing\n- Content must stand alone without links or images\n\n==================================================\nPLATFORM-SPECIFIC GUIDELINES\n==================================================\n\nGENERAL:\n\n- Refine the idea behind the keyword\n- title → clear, descriptive, SEO-friendly (never clickbait)\n- shortCaption → concise professional summary\n- longDescription → MUST include the numbered 5 W’s exactly once\n\n--------------------------------------------------\n\nLINKEDIN:\n\n- Professional, educational, insight-driven\n- For founders, marketers, and technical professionals\n- Lightly engaging\n- MUST include the numbered 5 W’s\n\n--------------------------------------------------\n\nYOUTUBE (COMMUNITY):\n\n- SEO-focused\n- Informative and explanatory\n- Soft CTA allowed\n- MUST include the numbered 5 W’s\n\n--------------------------------------------------\n\nX:\n\n- Concise, factual, direct\n- Technical but entertaining\n- MUST include at least:\n  1. What\n  2. For Whom\n  3. Why\n\n--------------------------------------------------\n\nFACEBOOK:\n\n- Conversational but professional\n- Educational and discussion-friendly\n- MUST include the numbered 5 W’s\n\n--------------------------------------------------\n\nINSTAGRAM:\n\n- Informative caption style\n- Short paragraphs\n- Entertaining\n- MUST include the numbered 5 W’s\n- Hashtags are REQUIRED\n\n==================================================\nHASHTAG RULES (MANDATORY)\n==================================================\n\n- hashtags MUST ALWAYS be generated\n- hashtags MUST be an array of strings\n- Generate BETWEEN 8 AND 12 hashtags\n- NEVER return an empty array\n- Hashtags must relate to:\n  • SEO\n  • digital marketing\n  • web development\n  • content creation\n  • the keyword\n\n==================================================\nBRANDING RULES (MANDATORY)\n==================================================\n\n- Mention GKWebtech naturally in long-form content\n- Include the website: gkwebtech.cloud at least once\n- Branding must feel educational, not promotional\n- Do NOT overuse the brand name\n\n==================================================\nOUTPUT FORMAT (STRICT)\n==================================================\n\n- Return ONLY valid JSON\n- JSON MUST match the provided schema exactly\n- ALL fields must be present\n- Do NOT include markdown, commentary, or extra text\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1392,
+        736
+      ],
+      "id": "e96979f1-0021-43e5-904c-9592ebda6b20",
+      "name": "Generate Idea + Multi-Platform Text (Gemini)",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "authentication": "communityManagement",
+        "postAs": "organization",
+        "organization": "111240385",
+        "text": "={{\n(() => {\n  const data = $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output;\n\n  const post = data.linkedinPost || '';\n\n  let hashtagsArray = [];\n\n  if (Array.isArray(data.hashtags)) {\n    hashtagsArray = data.hashtags;\n  } else if (typeof data.hashtags === 'string') {\n    hashtagsArray = data.hashtags.split(',').map(h => h.trim());\n  }\n\n  const hashtags = hashtagsArray.map(h => '#' + h.replace('#', '')).join(' ');\n\n  return post \n    + '\\n\\n—\\n🔗 Visit: https://gkwebtech.cloud\\n\\n' \n    + hashtags;\n})()\n}}",
+        "shareMediaCategory": "IMAGE",
+        "additionalFields": {
+          "title": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.title }}"
+        }
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        2688,
+        736
+      ],
+      "id": "10f0398b-5cac-46b7-96b9-822ccd0312a9",
+      "name": "Create a post",
+      "credentials": {
+        "linkedInCommunityManagementOAuth2Api": {
+          "id": "F9fPxbn0ocJ7Sp2n",
+          "name": "LinkedIn Community Management account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"refinedIdea\": { \"type\": \"string\" },\n  \"title\": { \"type\": \"string\" },\n  \"shortCaption\": { \"type\": \"string\" },\n  \"longDescription\": { \"type\": \"string\" },\n  \"linkedinPost\": { \"type\": \"string\" },\n  \"youtubePost\": { \"type\": \"string\" },\n  \"xPost\": { \"type\": \"string\" },\n  \"facebookPost\": { \"type\": \"string\" },\n  \"instagramPost\": { \"type\": \"string\" },\n  \"hashtags\": {\n    \"type\": \"array\",\n    \"items\": { \"type\": \"string\" }\n  }\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1536,
+        944
+      ],
+      "id": "2a1fb807-f103-4492-8f29-afbdab3c4393",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        864,
+        912
+      ],
+      "id": "c48dc85c-2df9-4bb8-bd8e-6ec241fb163d",
+      "name": "Telegram Trigger",
+      "webhookId": "30d5f1b9-2f7a-418e-9def-ccaf277f917d",
+      "credentials": {
+        "telegramApi": {
+          "id": "qkKVmKaj9VaGwcSD",
+          "name": "Telegram GK Posts"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "30 4,12 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        368,
+        576
+      ],
+      "id": "657d835a-3cea-4b41-9a5a-6d3af9045cb5",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You are a content strategist for a Digital Marketing Agency + Institute (GKWebtech).\n\nYour job is to decide ONE topic we should post RIGHT NOW on LinkedIn.\n\nFocus areas:\n- digital marketing\n- SEO\n- AI tools\n- automation\n- small business marketing\n- web development\n- student learning / career growth\n\nCONTENT STRATEGY RULES:\n\n- Alternate between:\n  1) Educational\n  2) Trending\n  3) Authority / insight\n\n- Avoid repeating generic topics\n- Prefer practical, useful, real-world topics\n- Occasionally include India-relevant context\n\nOUTPUT according to structured parser.\n\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        544,
+        576
+      ],
+      "id": "c7228d5f-2b59-4e22-96b6-f64a61fead1d",
+      "name": "Trend Research Engine"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        544,
+        752
+      ],
+      "id": "8ca23458-e9a4-4a94-b95e-1c08a238ddf1",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b1907ed0-f558-4422-bfaf-7d09e45869c0",
+              "name": "message.text",
+              "value": "={{ $json.output.topic }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        848,
+        576
+      ],
+      "id": "7c09af5e-1c4b-4854-8fa6-5a8e912422d5",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1168,
+        736
+      ],
+      "id": "e1268004-4250-423c-aa97-3e3a26357ab0",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"topic\": \"single topic here\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        688,
+        752
+      ],
+      "id": "29b01317-5c48-458b-af50-56599ec1d960",
+      "name": "Structured Output Parser"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Create Image Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Idea + Multi-Platform Text (Gemini)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Create Image Prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Idea + Multi-Platform Text (Gemini)": {
+      "main": [
+        [
+          {
+            "node": "Create Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Generate Idea + Multi-Platform Text (Gemini)",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        []
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Trend Research Engine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trend Research Engine": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Trend Research Engine",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Generate Idea + Multi-Platform Text (Gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Trend Research Engine",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "5c5ae668-9845-4434-84f9-b969359b8ec4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "23ba3ab6372b989322c7c1598e8150e6a955c2f7e518d62cdde5e77bee082320"
+  },
+  "id": "URUCpVFeO6aaCmLm",
+  "tags": []
+}

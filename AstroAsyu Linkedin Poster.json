@@ -1,0 +1,544 @@
+{
+  "name": "AstroAsyu Linkedin Poster",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Primary concept:\n{{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.refinedIdea }}\n\nBusiness context:\nDigital marketing visual for AstroAyu\n",
+        "options": {
+          "systemMessage": "=ROLE\nYou are a senior visual strategist and brand designer creating premium, topic-driven marketing visuals for Ayurved Astro (ayurvedastro.com), a holistic wellness practice focused on Ayurveda, Vedic Astrology, Yoga, and integrative natural therapies.\n\nPRIMARY OBJECTIVE\nGenerate a clean, typography-first wellness poster that clearly communicates the topic using large, readable text and a minimal, professional background.\n\nThe image should resemble a modern educational poster or awareness graphic — not a busy scene or stock photo.\n\n==================================================\nVISUAL STYLE (MANDATORY)\n\nCreate a typography-led design with:\n\n• Large central headline communicating the topic\n• Short supporting line or phrase if needed\n• Clean, minimal background (no clutter)\n• High contrast for readability\n• Premium, modern wellness aesthetic\n\nThe message must be immediately understandable at first glance.\n\nDo NOT use neon signage, city backgrounds, or unrelated environments.\n\n==================================================\nTOPIC → VISUAL LOGIC\n\nThe keyword determines the headline and supporting message.\n\nExamples:\n\nGut health → “Your Gut Shapes Your Mood”\nDigestion → “Strong Digestion, Strong Immunity”\nSleep balance → “Better Sleep Begins With Balance”\nStress relief → “Calm Nervous System, Clear Mind”\nDosha balance → “Balance Your Doshas, Balance Your Life”\n\nUse simple, educational language.\n\n==================================================\nBACKGROUND & COLOR RULES\n\nUse calm, professional palettes aligned with Ayurveda:\n\n• warm earth tones (sand, clay, olive, muted gold)\n• soft herbal greens\n• deep indigo with gold accents (for astrology themes)\n• clean light gradients for medical/wellness topics\n\nBackground must remain subtle and support text clarity.\n\n==================================================\nBRANDING RULES (MANDATORY)\n\nThe image MUST include the brand text:\n\nayurvedastro.com\n\nBrand placement:\n• bottom-left, bottom-right, top-left, or top-right\n• clearly readable\n• high contrast against background\n• integrated into design (not floating randomly)\n\nBrand text must be visible but not overpower the main message.\n\n==================================================\nCOMPOSITION RULES\n\n• One clear focal message\n• Centered or slightly upper-centered headline\n• Adequate negative space\n• Designed for 1:1 or 4:5 aspect ratios\n• No clutter, no stock-photo feel\n\n==================================================\nHUMAN USAGE\n\nDo NOT include people unless the topic explicitly requires it.\nPrefer symbolic or abstract wellness visuals over literal imagery.\n\n==================================================\nFINAL OUTPUT RULES\n\nOutput ONLY the final image-generation prompt.\nDo NOT include explanations.\nDo NOT include multiple prompts.\nDo NOT include markdown or extra text."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1632,
+        2064
+      ],
+      "id": "65030eb3-cf24-4c1a-8d61-4afcf47f7c23",
+      "name": "Create Image Prompt",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "content": "# Inputs",
+        "height": 892,
+        "width": 2348,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        688,
+        1696
+      ],
+      "id": "3290287d-4a9f-47f0-a8d8-6acfd15771ac",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        2272
+      ],
+      "id": "e62972e6-dbc6-453d-9523-35c524bb2e9a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        2272
+      ],
+      "id": "ce2b9773-e3d2-485b-8788-9280e190ee45",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-pro-image-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-pro-image-preview (Nano Banana Pro)"
+        },
+        "prompt": "={{ $json.output }}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        2016,
+        2064
+      ],
+      "id": "33e6e61a-05e8-4d65-8e7e-7dd4aee12648",
+      "name": "Generate an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1aLPin8sZ9tcS6hGCqVQyULU9podHBpLlKl_KuSAB-ss",
+          "mode": "list",
+          "cachedResultName": "Astro_ayuu one-click-linkedin-automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aLPin8sZ9tcS6hGCqVQyULU9podHBpLlKl_KuSAB-ss/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aLPin8sZ9tcS6hGCqVQyULU9podHBpLlKl_KuSAB-ss/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Keyword": "={{ $('Telegram Trigger').item.json.message.text }}",
+            "Status": "=Generated",
+            "Image Prompt": "={{ $('Create Image Prompt').item.json.output }}",
+            "Title": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.title }}",
+            "Long Description": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.longDescription }}",
+            "Image URL": "={{ $json.webViewLink }}",
+            "X Post": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.xPost }}",
+            "LinkedIn Post": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.linkedinPost }}",
+            "Hashtags": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.hashtags.join(', ') }}",
+            "Short Caption": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.shortCaption }}",
+            "Refined Idea": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.refinedIdea }}",
+            "Created At": "={{ $now }}",
+            "Youtube Post": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.youtubePost }}",
+            "Instagram Post": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.instagramPost }}",
+            "Facebook Post": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.facebookPost }}"
+          },
+          "matchingColumns": [
+            "Keyword"
+          ],
+          "schema": [
+            {
+              "id": "Keyword",
+              "displayName": "Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Refined Idea",
+              "displayName": "Refined Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Short Caption",
+              "displayName": "Short Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Long Description",
+              "displayName": "Long Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn Post",
+              "displayName": "LinkedIn Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Youtube Post",
+              "displayName": "Youtube Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "X Post",
+              "displayName": "X Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Facebook Post",
+              "displayName": "Facebook Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Instagram Post",
+              "displayName": "Instagram Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Hashtags",
+              "displayName": "Hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image URL",
+              "displayName": "Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Platfom Posted",
+              "displayName": "Platfom Posted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Created At",
+              "displayName": "Created At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2736,
+        1872
+      ],
+      "id": "8ca21e35-2a89-439e-ac11-20dc2352dc4f",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cJSyRJfujnzRG2jD",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        832,
+        2064
+      ],
+      "id": "9f39d564-4d36-42c1-a6a9-ceeddfceca73",
+      "name": "Telegram Trigger",
+      "webhookId": "e82ed620-9616-4a44-8ea8-7a3bbbc844b7",
+      "credentials": {
+        "telegramApi": {
+          "id": "yVDTdlS3AdcZrAsu",
+          "name": "Telegram Astro Posts"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "=gkwebtech-{{$now}}.{{$binary.data.mimeType.split('/')[1]}}\n",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1Hu4u-RKmV7Zp7iOk7ZsvFt50kB5_SG1z",
+          "mode": "list",
+          "cachedResultName": "Images_astro_ayuu",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Hu4u-RKmV7Zp7iOk7ZsvFt50kB5_SG1z"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2432,
+        1872
+      ],
+      "id": "b1666510-e3c0-4d7f-b4c6-5ab15fbd4449",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cJpNtgyAdHOJkhWP",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=User keyword: {{ $json.message.text }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an SEO strategist and digital content trainer for Ayurved Astro (ayurvedastro.com), a holistic wellness practice combining Ayurveda, Vedic Astrology, Yoga, and natural therapies.\n\n==================================================\nOBJECTIVE\nRefine the user's keyword and generate professional, SEO-optimized, platform-specific content for real business use across:\n\nLinkedIn\nYouTube (Community Posts)\nX\nFacebook\nInstagram\n\nReturn ONLY valid JSON that matches the provided schema exactly.\n\n==================================================\nCRITICAL LINKEDIN STRUCTURE RULE (MANDATORY)\n\nThe linkedinPost MUST follow this storytelling structure and rhythm:\n\n1. Strong one-line hook\n2. One-line plain explanation (\"X = ...\")\n3. Short relatable examples (2–4 lines with emojis)\n4. Name the key root factor (herb, bacterium, habit, imbalance, mechanism)\n5. Section: \"What does it do?\" with 3–5 bullet benefits\n6. Brief context: why this issue became common\n7. Transition: hopeful improvement statement (\"But you can improve it.\")\n8. Benefits checklist (3 short outcomes with checkmarks)\n9. ACTION STEP FOR TONIGHT (clear, practical)\n10. 3–7 day habit suggestion\n11. Self-tracking line (\"track how you feel\")\n12. Soft Ayurved Astro CTA including:\n    - \"Visit: ayurvedastro.com\"\n    - invitation to learn more or book consultation\n13. One reflective closing question\n\nIMPORTANT:\n- Use short lines and mobile-friendly spacing\n- No markdown symbols (** or *)\n- Use emojis sparingly and purposefully\n- Replace any external brand references with Ayurved Astro\n\n==================================================\nLONG DESCRIPTION STRUCTURE (MANDATORY)\n\nlongDescription must be educational and include:\n\n• short intro\n• 5 W's in this exact format (once only):\n\nWhat: ...\nFor Whom: ...\nWhy: ...\nWhen: ...\nWhere: ...\n\n• Basic Remedies section (3–5 beginner-friendly remedies)\n• responsible health language\n• include \"Visit: ayurvedastro.com\"\n\n==================================================\nPLATFORM ADAPTATION RULES\n\nlinkedinPost:\n- Use full storytelling structure above\n\nyoutubePost:\n- Educational summary version\n- Include 5 W's and Basic Remedies\n- Soft CTA\n\nxPost:\n- Concise\n- Must include What, For Whom, Why\n- Max clarity, no fluff\n\nfacebookPost:\n- Conversational but professional\n- Include 5 W's and Basic Remedies\n\ninstagramPost:\n- Caption style, short paragraphs\n- Include 5 W's and Basic Remedies\n- Highly scannable\n\n==================================================\nHEALTH CONTENT SAFETY RULES\n\nUse responsible language:\n- \"may support\"\n- \"can help\"\n- \"is associated with\"\n\nDo NOT:\n- promise cures\n- guarantee results\n- replace medical advice\n\n==================================================\nBRANDING RULES\n\n- Mention Ayurved Astro naturally\n- Include \"Visit: ayurvedastro.com\" at least once\n- CTA must be soft and trust-building\n- Do not overuse brand name\n\n==================================================\nHASHTAG RULES\n\n- Generate 8–12 hashtags\n- Return as array of strings\n- Must relate to Ayurveda, wellness, lifestyle, keyword\n\n==================================================\nOUTPUT FORMAT (STRICT)\n\nReturn ONLY valid JSON.\nALL fields must be present.\nALL text must be written in plan english. There should not be any strange formated text. (Example: \\(Kasa\\))\nDo NOT include markdown, commentary, or extra text."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1136,
+        2064
+      ],
+      "id": "d6524756-c2a5-4802-a380-8f29290ecdab",
+      "name": "Generate Idea + Multi-Platform Text (Gemini)",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"refinedIdea\": { \"type\": \"string\" },\n  \"title\": { \"type\": \"string\" },\n  \"shortCaption\": { \"type\": \"string\" },\n  \"longDescription\": { \"type\": \"string\" },\n  \"linkedinPost\": { \"type\": \"string\" },\n  \"youtubePost\": { \"type\": \"string\" },\n  \"xPost\": { \"type\": \"string\" },\n  \"facebookPost\": { \"type\": \"string\" },\n  \"instagramPost\": { \"type\": \"string\" },\n  \"hashtags\": {\n    \"type\": \"array\",\n    \"items\": { \"type\": \"string\" }\n  }\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1280,
+        2272
+      ],
+      "id": "cc210da2-8517-48a6-930b-b7548c52782b",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "authentication": "communityManagement",
+        "postAs": "organization",
+        "organization": "111799193",
+        "text": "={{ $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.linkedinPost  + '\\n\\n' + $('Generate Idea + Multi-Platform Text (Gemini)').item.json.output.hashtags.map(h => '#' + h).join(' ') }}",
+        "shareMediaCategory": "IMAGE",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        2432,
+        2064
+      ],
+      "id": "eca41efb-57ce-45e7-a579-28e54be6d4d7",
+      "name": "Create a post1",
+      "credentials": {
+        "linkedInCommunityManagementOAuth2Api": {
+          "id": "F9fPxbn0ocJ7Sp2n",
+          "name": "LinkedIn Community Management account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Create Image Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Idea + Multi-Platform Text (Gemini)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Create Image Prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create a post1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Generate Idea + Multi-Platform Text (Gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Idea + Multi-Platform Text (Gemini)": {
+      "main": [
+        [
+          {
+            "node": "Create Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Generate Idea + Multi-Platform Text (Gemini)",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "ecfa134b-9319-4816-88a0-6af440a16f01",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "23ba3ab6372b989322c7c1598e8150e6a955c2f7e518d62cdde5e77bee082320"
+  },
+  "id": "bVPbYf5i5jytLBarlJJIT",
+  "tags": []
+}

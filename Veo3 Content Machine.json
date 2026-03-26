@@ -1,0 +1,1545 @@
+{
+  "name": "Veo3 Content Machine",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1XWFQlFXaSiiAiu_H71QRZbldioAuqivSlkXbXSeumOo",
+          "mode": "list",
+          "cachedResultName": "Veo3 Videos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XWFQlFXaSiiAiu_H71QRZbldioAuqivSlkXbXSeumOo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XWFQlFXaSiiAiu_H71QRZbldioAuqivSlkXbXSeumOo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Idea": "={{ $('Telegram Trigger').item.json.message.text }}",
+            "Status": "=generated",
+            "Refined Idea": "={{ $('Content Strategist').item.json.output.refinedIdea }}",
+            "Title": "={{ $('Content Strategist').item.json.output.title }}",
+            "Long Description (YouTube/Facebook)": "={{ $('Content Strategist').item.json.output.youtubeDescription }}",
+            "Hashtags": "={{ $('Content Strategist').item.json.output.hashtags }}",
+            "Veo Prompt": "={{ $('Clip Prompt Generator – Veo').item.json.output.clips[0].veoPrompt }}",
+            "Video URL (Drive)": "={{ $json.webContentLink }}",
+            "X Text": "={{ $('Content Strategist').item.json.output.xText }}",
+            "Instagram Caption": "={{ $('Content Strategist').item.json.output.instagramCaption }}"
+          },
+          "matchingColumns": [
+            "Idea"
+          ],
+          "schema": [
+            {
+              "id": "Idea",
+              "displayName": "Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Refined Idea",
+              "displayName": "Refined Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Instagram Caption",
+              "displayName": "Instagram Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Long Description (YouTube/Facebook)",
+              "displayName": "Long Description (YouTube/Facebook)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "X Text",
+              "displayName": "X Text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Hashtags",
+              "displayName": "Hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Veo Prompt",
+              "displayName": "Veo Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video URL (Drive)",
+              "displayName": "Video URL (Drive)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Youtube URL",
+              "displayName": "Youtube URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1136,
+        2816
+      ],
+      "id": "70adaef2-93e0-4a24-81d5-1c512831a524",
+      "name": "Store the Video",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cJSyRJfujnzRG2jD",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "==gkwebtech-{{ $('Telegram Trigger').item.json.message.text }}-{{$execution.id}}.mp4\n",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1qARzn2gDbCPlyRG0k85NyCL9gVESXc3q",
+          "mode": "list",
+          "cachedResultName": "VEO VIDEOS",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1qARzn2gDbCPlyRG0k85NyCL9gVESXc3q"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1392,
+        2816
+      ],
+      "id": "17e22208-620f-4093-8cdb-924348336e16",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cJpNtgyAdHOJkhWP",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -5680,
+        2656
+      ],
+      "id": "48944c05-43bf-4437-a59c-1dc969219c69",
+      "name": "Telegram Trigger",
+      "webhookId": "f09105fc-7c40-4313-9595-7715ba0c3038",
+      "credentials": {
+        "telegramApi": {
+          "id": "BDmrk5lh7kCjHkjf",
+          "name": "Telegram GK Videos"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "title": "={{ $('Content Strategist').item.json.output.title }}",
+        "regionCode": "IN",
+        "categoryId": "27",
+        "options": {
+          "description": "={{ \n  $('Content Strategist').item.json.output.youtubeDescription \n  + \"\\n\\n\" \n  + $('Content Strategist').item.json.output.hashtags \n}}\n\n",
+          "privacyStatus": "public",
+          "selfDeclaredMadeForKids": false,
+          "tags": "={{$('Content Strategist').item.json.output.hashtags \n}}\n\n"
+        }
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        -1392,
+        2528
+      ],
+      "id": "0267e93c-f148-42e8-af7f-a9e4b4bf9c30",
+      "name": "Upload a video",
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "rhcaCplo4dZ0etsK",
+          "name": "YouTube account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"category\": { \"type\": \"string\" },\n  \"reason\": { \"type\": \"string\" },\n  \"primaryGoal\": { \"type\": \"string\" },\n  \"youtubeAngle\": { \"type\": \"string\" },\n  \"recommendedDurationSeconds\": { \"type\": \"number\" },\n  \"clipStrategy\": { \"type\": \"string\" },\n  \"brandingStyle\": { \"type\": \"string\" },\n  \"titleStyle\": { \"type\": \"string\" },\n  \"descriptionStyle\": { \"type\": \"string\" },\n  \"ctaFocus\": { \"type\": \"string\" },\n  \"hashtagsTheme\": { \"type\": \"string\" }\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -5296,
+        2896
+      ],
+      "id": "0d0a8ef6-1221-40ef-97c3-3ba04c0a34e8",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -5440,
+        2896
+      ],
+      "id": "f5150903-db1d-4275-8c1c-6ee9265b8489",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are the Creative Director for GKWebtech, a Digital Marketing Agency + Institute.\n\nThe user provides ONE topic or keyword.\n\nYour job is to decide what type of short-form video GKWebtech should publish\nprimarily for YouTube Shorts,\nand secondarily for Instagram, LinkedIn, Facebook, and X.\n\nYou do NOT write scripts or Veo prompts.\n\nYou ONLY:\n\n• classify the topic into the best-performing content category\n• decide the creative strategy\n• choose video format\n• define branding placement\n• define metadata direction (title, description, hashtags)\n• choose whether to generate a single clip or multiple clips\n\nALLOWED CATEGORIES (MUST pick ONE):\n\neducational_explainer  \nquick_tip  \npromo_ad  \nworkflow_demo  \ncase_study  \nmyth_busting  \ncourse_promo  \ntool_comparison  \n\nRULES:\n\n- Pick the category as specified that maximizes authority and lead generation.\n- Prioritize infotainment workflow-based formats over pure ads unless the topic is promotional.\n- Think like a YouTube strategist and script writer, not a TikTok influencer.\n- Assume vertical video unless otherwise required.\n- GKWebtech branding must appear visually and in descriptions.\n- If logo is not feasible, require the on-screen text \"gkwebtech.cloud\".\n- \n\nDECISIONS YOU MUST MAKE:\n\n1) category  \n2) why this category fits  \n3) main business goal of the video  \n4) YouTube hook angle  \n5) recommended total duration in seconds (6–20)  \n6) whether to generate a single clip or three clips  \n7) branding style inside video  \n8) how titles should be framed  \n9) how descriptions should be written  \n10) CTA focus  \n11) hashtag theme cluster\n\nOUTPUT RULES:\n\n- Return ONLY valid JSON.\n- Must match the schema exactly.\n- No markdown.\n- No commentary.\n- No extra fields.\n\nFINAL OUTPUT REQUIREMENTS:\n\nYou must output ONLY valid JSON.\n\nDo not include markdown.\nDo not include explanations.\nDo not include commentary.\nDo not include bullet points.\nDo not include triple backticks.\n\nYour entire reply must start with { and end with }.\n\nAll keys must exactly match the schema.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -5440,
+        2656
+      ],
+      "id": "1f54978a-b11d-4dec-b58f-70a0bdb7d74b",
+      "name": "Creative Director – Video Strategy"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output.category.type }}",
+                    "rightValue": "educational_explainer",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "3203c40a-ce27-49e6-a31e-da94f6398b82"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ec548cb7-563c-4616-b21a-7b6ee9355acb",
+                    "leftValue": "={{ $json.output.category.type }}",
+                    "rightValue": "quick_tip",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f37db06b-a086-4ff7-b44e-37c94abb8ec9",
+                    "leftValue": "={{ $json.output.category.type }}",
+                    "rightValue": "promo_ad",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "714bd135-0af2-46e6-a351-f9641ba2be4b",
+                    "leftValue": "={{ $json.output.category.type }}",
+                    "rightValue": "workflow_demo",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "cddce145-ba4d-4d23-bb9c-200ed8bc3e34",
+                    "leftValue": "={{ $json.output.category.type }}",
+                    "rightValue": "case_study",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "134b9267-f257-45dd-864a-70b18a8ba770",
+                    "leftValue": "={{ $json.output.category.type }}",
+                    "rightValue": "myth_busting",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "59ca2c11-b970-413c-83e0-da114dfdddc2",
+                    "leftValue": "={{ $json.output.category.type }}",
+                    "rightValue": "course_promo",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c908bc0f-29d0-4def-8cec-854a6abf64cf",
+                    "leftValue": "={{ $json.output.category.type }}",
+                    "rightValue": "tool_comparison",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -5040,
+        2560
+      ],
+      "id": "0f285619-19e9-41c6-90c1-dd534cc52700",
+      "name": "Open Route by Video Category"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are the Head of Education Content at GKWebtech, a Digital Marketing Agency + Institute.\n\nThe Creative Director has chosen the educational_explainer category.\n\nDesign a YouTube-first short-form educational video that teaches ONE precise concept clearly.\n\nYou must produce:\n\n- a high-level video concept\n- a 2–3 clip plan with durations\n- spoken voiceover lines (one per clip)\n- matching on-screen text\n- YouTube title and SEO description\n- 8–12 hashtags\n- a closing CTA line referencing GKWebtech or gkwebtech.cloud\n\nCREATIVE RULES:\n\n- Total duration 10–18 seconds.\n- Educational tone, consultant-level.\n- No hype marketing language.\n- Voiceover lines must be 3–7 words.\n- On-screen text must match voiceover exactly.\n- Final clip includes branding and CTA.\n\nCONTENT STYLE:\n\n- Diagrams, flows, dashboards, data visuals.\n- Automation-first.\n- Instructor energy.\n\nFINAL OUTPUT REQUIREMENTS:\n\n- Output ONLY valid JSON.\n- Do not include markdown or commentary.\n- Do not wrap in backticks.\n- Response must start with { and end with }.\n- All fields in the schema must be present.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -3984,
+        1248
+      ],
+      "id": "aa907570-997c-4153-bccf-82c332fdfd8d",
+      "name": "Educational Explainer – Planner",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3984,
+        1472
+      ],
+      "id": "2b17dac9-102e-42f3-b135-f4209291ec6d",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are GKWebtech’s short-form growth strategist.\n\nThe Creative Director chose quick_tip.\n\nCreate a rapid-fire micro-lesson that delivers one tactical insight.\n\nYou must output the same JSON fields.\n\nRULES:\n\n- 2 clips only.\n- 6–10 seconds total.\n- Punchy voiceover.\n- One clear takeaway.\n- Branding in final clip.\n\nSTYLE:\n\n- Bold typography.\n- Fast motion graphics.\n- No fluff.\n\nFINAL OUTPUT REQUIREMENTS:\n\n- Output ONLY valid JSON.\n- Do not include markdown or commentary.\n- Do not wrap in backticks.\n- Response must start with { and end with }.\n- All fields in the schema must be present.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -3984,
+        1648
+      ],
+      "id": "8690676c-d572-47bf-a859-5674d91c2772",
+      "name": "Quick Tip – Planner"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3984,
+        1872
+      ],
+      "id": "2b2f3dd1-ab86-4cae-bc23-0e19fff7ae5d",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are GKWebtech’s commercial advertising director.\n\nThe Creative Director chose promo_ad.\n\nDesign a persuasive short ad promoting services or training programs.\n\nRULES:\n\n- 3 clips.\n- 8–14 seconds.\n- Emotional + logical appeal.\n- Clear value proposition.\n- Strong CTA.\n- Branding highly visible in final clip.\n\nFINAL OUTPUT REQUIREMENTS:\n\n- Output ONLY valid JSON.\n- Do not include markdown or commentary.\n- Do not wrap in backticks.\n- Response must start with { and end with }.\n- All fields in the schema must be present.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -3984,
+        2048
+      ],
+      "id": "925575bf-fd6f-44bf-9b1a-6b4cded470b2",
+      "name": "Promo Ad – Planner"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3984,
+        2288
+      ],
+      "id": "d0eced34-e283-40e6-ac24-82ba48f992dd",
+      "name": "Google Gemini Chat Model5",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are GKWebtech’s automation product demonstrator.\n\nThe Creative Director chose workflow_demo.\n\nDesign a conceptual walkthrough of a marketing automation system.\n\nRULES:\n\n- 2–3 clips.\n- 10–18 seconds.\n- Instructional tone.\n- Show pipelines, nodes, dashboards.\n- Branding final clip.\n\nFINAL OUTPUT REQUIREMENTS:\n\n- Output ONLY valid JSON.\n- Do not include markdown or commentary.\n- Do not wrap in backticks.\n- Response must start with { and end with }.\n- All fields in the schema must be present.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -3984,
+        2448
+      ],
+      "id": "e1ba1fa4-3914-43b2-a4f6-2e69f14488d0",
+      "name": "Workflow Demo – Planner"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3984,
+        2672
+      ],
+      "id": "6843c404-4a6a-4828-a3ef-5f618c5ba417",
+      "name": "Google Gemini Chat Model6",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are GKWebtech’s case study storyteller.\n\nThe Creative Director chose case_study.\n\nDesign a before–after narrative showing measurable results.\n\nRULES:\n\n- 3 clips.\n- 12–18 seconds.\n- Problem → Solution → Outcome.\n- Numbers-driven.\n- Branding final clip.\n\nFINAL OUTPUT REQUIREMENTS:\n\n- Output ONLY valid JSON.\n- Do not include markdown or commentary.\n- Do not wrap in backticks.\n- Response must start with { and end with }.\n- All fields in the schema must be present.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -3984,
+        2848
+      ],
+      "id": "3391af29-a9df-4245-8692-8f7da9d30c2b",
+      "name": "Case Study – Planner"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3984,
+        3088
+      ],
+      "id": "c12355e1-eaf2-43e4-9661-b8b5cda3396a",
+      "name": "Google Gemini Chat Model7",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are GKWebtech’s contrarian marketing analyst.\n\nThe Creative Director chose myth_busting.\n\nDebunk one widespread belief about digital marketing or AI.\n\nRULES:\n\n- 2–3 clips.\n- 8–14 seconds.\n- Bold tone.\n- Contrast visuals.\n- Branding final clip.\n\nFINAL OUTPUT REQUIREMENTS:\n\n- Output ONLY valid JSON.\n- Do not include markdown or commentary.\n- Do not wrap in backticks.\n- Response must start with { and end with }.\n- All fields in the schema must be present.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -3984,
+        3248
+      ],
+      "id": "e7a5d679-1b88-444e-a8bb-154b3ef65fa0",
+      "name": "Myth Busting – Planner"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3984,
+        3488
+      ],
+      "id": "e00c1ed8-cfc6-43c7-97da-7ba76e31fa10",
+      "name": "Google Gemini Chat Model8",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are GKWebtech’s training program director.\n\nThe Creative Director chose course_promo.\n\nPromote GKWebtech learning programs with authority.\n\nRULES:\n\n- 3 clips.\n- 10–15 seconds.\n- Skill-focused.\n- Career benefit angle.\n- Branding final clip.\n\nFINAL OUTPUT REQUIREMENTS:\n\n- Output ONLY valid JSON.\n- Do not include markdown or commentary.\n- Do not wrap in backticks.\n- Response must start with { and end with }.\n- All fields in the schema must be present.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -3984,
+        3648
+      ],
+      "id": "05a2d412-a89f-452b-ac09-4c91bfb69ab7",
+      "name": "Course Promo – Planner"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3984,
+        3888
+      ],
+      "id": "492470d6-aafe-4f16-9a3b-b6164843df15",
+      "name": "Google Gemini Chat Model9",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are GKWebtech’s technical reviewer.\n\nThe Creative Director chose tool_comparison.\n\nCompare two tools, methods, or systems objectively.\n\nRULES:\n\n- 3 clips.\n- 12–18 seconds.\n- Balanced tone.\n- Visual side-by-side.\n- Branding final clip.\n\nFINAL OUTPUT REQUIREMENTS:\n\n- Output ONLY valid JSON.\n- Do not include markdown or commentary.\n- Do not wrap in backticks.\n- Response must start with { and end with }.\n- All fields in the schema must be present.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -3984,
+        4048
+      ],
+      "id": "5c23e6e3-539f-4545-8092-bd11bf9e388a",
+      "name": "Tool Comparison – Planner"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3984,
+        4288
+      ],
+      "id": "b5b76576-7057-4f51-bd3e-b056e6be238c",
+      "name": "Google Gemini Chat Model10",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"category\": \"string\",\n  \"reason\": \"string\",\n  \"primaryGoal\": \"string\",\n  \"youtubeAngle\": \"string\",\n  \"recommendedDurationSeconds\": 18,\n  \"clipStrategy\": \"string\",\n  \"brandingStyle\": \"string\",\n  \"titleStyle\": \"string\",\n  \"descriptionStyle\": \"string\",\n  \"ctaFocus\": \"string\",\n  \"hashtagsTheme\": \"string\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -3840,
+        1472
+      ],
+      "id": "aa9dbedf-1439-4409-97e2-e54c44bdfb3b",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"category\": \"string\",\n  \"reason\": \"string\",\n  \"primaryGoal\": \"string\",\n  \"youtubeAngle\": \"string\",\n  \"recommendedDurationSeconds\": 18,\n  \"clipStrategy\": \"string\",\n  \"brandingStyle\": \"string\",\n  \"titleStyle\": \"string\",\n  \"descriptionStyle\": \"string\",\n  \"ctaFocus\": \"string\",\n  \"hashtagsTheme\": \"string\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -3840,
+        1872
+      ],
+      "id": "aeb9d7f3-c9c3-4d28-8f13-31365b8e3bf7",
+      "name": "Structured Output Parser3"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"category\": \"string\",\n  \"reason\": \"string\",\n  \"primaryGoal\": \"string\",\n  \"youtubeAngle\": \"string\",\n  \"recommendedDurationSeconds\": 18,\n  \"clipStrategy\": \"string\",\n  \"brandingStyle\": \"string\",\n  \"titleStyle\": \"string\",\n  \"descriptionStyle\": \"string\",\n  \"ctaFocus\": \"string\",\n  \"hashtagsTheme\": \"string\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -3840,
+        2288
+      ],
+      "id": "452cf56b-b14b-407b-8e8e-59d47be1bb5e",
+      "name": "Structured Output Parser4"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"category\": \"string\",\n  \"reason\": \"string\",\n  \"primaryGoal\": \"string\",\n  \"youtubeAngle\": \"string\",\n  \"recommendedDurationSeconds\": 18,\n  \"clipStrategy\": \"string\",\n  \"brandingStyle\": \"string\",\n  \"titleStyle\": \"string\",\n  \"descriptionStyle\": \"string\",\n  \"ctaFocus\": \"string\",\n  \"hashtagsTheme\": \"string\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -3840,
+        2672
+      ],
+      "id": "45daf85b-9169-4935-8518-1766b2fcc99f",
+      "name": "Structured Output Parser5"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"category\": \"string\",\n  \"reason\": \"string\",\n  \"primaryGoal\": \"string\",\n  \"youtubeAngle\": \"string\",\n  \"recommendedDurationSeconds\": 18,\n  \"clipStrategy\": \"string\",\n  \"brandingStyle\": \"string\",\n  \"titleStyle\": \"string\",\n  \"descriptionStyle\": \"string\",\n  \"ctaFocus\": \"string\",\n  \"hashtagsTheme\": \"string\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -3840,
+        3088
+      ],
+      "id": "2c9206bc-f34d-4f19-96b5-8f0d488e1128",
+      "name": "Structured Output Parser6"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"category\": \"string\",\n  \"reason\": \"string\",\n  \"primaryGoal\": \"string\",\n  \"youtubeAngle\": \"string\",\n  \"recommendedDurationSeconds\": 18,\n  \"clipStrategy\": \"string\",\n  \"brandingStyle\": \"string\",\n  \"titleStyle\": \"string\",\n  \"descriptionStyle\": \"string\",\n  \"ctaFocus\": \"string\",\n  \"hashtagsTheme\": \"string\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -3840,
+        3488
+      ],
+      "id": "42bc2f37-d8a3-413b-9122-cf24f6ecb24c",
+      "name": "Structured Output Parser7"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"category\": \"string\",\n  \"reason\": \"string\",\n  \"primaryGoal\": \"string\",\n  \"youtubeAngle\": \"string\",\n  \"recommendedDurationSeconds\": 18,\n  \"clipStrategy\": \"string\",\n  \"brandingStyle\": \"string\",\n  \"titleStyle\": \"string\",\n  \"descriptionStyle\": \"string\",\n  \"ctaFocus\": \"string\",\n  \"hashtagsTheme\": \"string\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -3840,
+        3888
+      ],
+      "id": "a855dee7-8ecb-44f9-b9a7-f7e09be48705",
+      "name": "Structured Output Parser8"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"category\": \"string\",\n  \"reason\": \"string\",\n  \"primaryGoal\": \"string\",\n  \"youtubeAngle\": \"string\",\n  \"recommendedDurationSeconds\": 18,\n  \"clipStrategy\": \"string\",\n  \"brandingStyle\": \"string\",\n  \"titleStyle\": \"string\",\n  \"descriptionStyle\": \"string\",\n  \"ctaFocus\": \"string\",\n  \"hashtagsTheme\": \"string\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -3840,
+        4288
+      ],
+      "id": "0baff686-43f7-4fa3-92a3-2c7aceb5bf61",
+      "name": "Structured Output Parser9"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ JSON.stringify($json) }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a senior AI video prompt engineer for Google Veo 3.1.\n\nYou receive a JSON plan containing:\n\n- clipPlan\n- voiceoverLines\n- onScreenText\n- ctaLine\n- videoConcept\n\nYour task is to generate EXACTLY ONE Veo video prompt.\n\nIMPORTANT PLATFORM CONSTRAINT:\n\n- Veo generation must be a complete standalone video.\n- Duration must be exactly 7 seconds.\n- No multiple outputs.\n- No continuation clips.\n- No unfinished endings.\n- language is US English.\n\nCREATIVE RULES:\n\n- Do NOT include humans, face, hands or office workers.\n- Use only abstract systems, office space, landscape, buildings, cities, holograms, dashboards, animated UI, data streams, icons, charts, glowing typography, animation figures.\n- Avoid crowded visuals.\n- Premium agency look.\n- Clean motion graphics.\n- Futuristic but professional.\n- Vertical 9:16.\n\nVOICE RULES (CRITICAL — MUST FOLLOW):\n\n- Spoken narration MUST be present.\n- The narrator must speak the quoted line aloud.\n- Natural human-sounding voice.\n- No silent versions allowed.\n- No text-only narration.\n- No music-only output.\n- Clear pronunciation.\n- Mid-speed delivery.\n- No whispering.\n- No robotic glitches.\n- Include exactly ONE spoken line enclosed in quotation marks.\n- Narration must match the provided text character-for-character.\n- No paraphrasing, no rewording, no substitutions.\n- Pronounce acronyms and brand names clearly and fully.\n\nTEXT RULES:\n\n- On-screen text must match voiceover exactly.\n- Render text letter-perfect.\n- Preserve capitalization and punctuation exactly as provided.\n- Do NOT stylize words in ways that alter spelling.\n- No auto-correction or rephrasing.\n- No hallucinated symbols or extra characters.\n- Large readable typography.\n- No more than 5 words per screen.\n- US English.\n\nFINAL SECONDS:\n\n- End the video with visible branding text: \"gkwebtech.cloud\" or \"GKWebtech\".\n- Branding text must appear exactly as written, with no spelling variation.\n\nOUTPUT FORMAT RULES:\n\n- Output ONLY valid JSON.\n- Start with { and end with }.\n- Top-level key must be \"clips\".\n- clips must contain exactly ONE item.\n- durationSeconds must be 8.\n- No markdown.\n- No commentary.\n- No explanations.\n\nA clear narrator voice must be audible for the entire clip."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -2496,
+        2672
+      ],
+      "id": "3361c093-8846-4898-b9b7-6cd201d23da0",
+      "name": "Clip Prompt Generator – Veo"
+    },
+    {
+      "parameters": {
+        "numberInputs": 8
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -2784,
+        2576
+      ],
+      "id": "bf263352-2f00-4a1a-bec8-934afa6468af",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2496,
+        2896
+      ],
+      "id": "872cc7c3-60ff-4b62-b12b-7835175bf5ca",
+      "name": "Google Gemini Chat Model11",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"clips\": [\n    {\n      \"clipNumber\": 1,\n      \"durationSeconds\": 8,\n      \"veoPrompt\": \"string\"\n    }\n  ]\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -2352,
+        2896
+      ],
+      "id": "f7d5ecad-421f-44b9-a505-94c2155c453e",
+      "name": "Structured Output Parser10"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "modelId": {
+          "__rl": true,
+          "value": "models/veo-3.0-generate-001",
+          "mode": "list",
+          "cachedResultName": "models/veo-3.0-generate-001"
+        },
+        "prompt": "={{ $('Clip Prompt Generator – Veo').item.json.output.clips[0].veoPrompt }}",
+        "options": {
+          "durationSeconds": 8,
+          "aspectRatio": "9:16"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -1648,
+        2672
+      ],
+      "id": "ae8d2b32-d7e0-42ce-a580-162cc8d935b0",
+      "name": "Generate a video",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2080,
+        2896
+      ],
+      "id": "7aeb7ad3-cfac-4237-876f-64a468fdd28c",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"refinedIdea\": \"string\",\n  \"category\": \"string\",\n  \"title\": \"string\",\n  \"youtubeDescription\": \"string\",\n  \"instagramCaption\": \"string\",\n  \"xText\": \"string\",\n  \"hashtags\": \"string\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -1936,
+        2896
+      ],
+      "id": "79266a84-8268-4b69-b678-917ce38699e9",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Idea: {{ $('Telegram Trigger').item.json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a YouTube-first content strategist for a digital marketing agency and institute named GKWebtech.\n\nYou receive a raw topic keyword from Telegram.\n\nYour job is to:\n\n1) Refine the topic into a compelling YouTube video idea.\n2) Choose ONE category from:\n   - educational_explainer\n   - product_demo\n   - case_study\n   - agency_ad\n   - workflow_tip\n   - industry_news\n\n3) Generate SEO-optimized publishing metadata where YOUTUBE is the PRIMARY platform.\n\nSTRICT REQUIREMENTS:\n\nTITLE:\n- Optimized for YouTube search + click-through.\n- 55–70 characters.\n- Includes the main keyword.\n- Sounds curious or benefit-driven.\n\nYOUTUBE DESCRIPTION:\n- 120–200 words.\n- SEO rich.\n- Repeats the main keyword naturally 2–3 times.\n- Mentions GKWebtech.\n- Includes gkwebtech.cloud.\n- Includes a short CTA to subscribe.\n- Ends with 5–8 hashtags.\n\nINSTAGRAM CAPTION:\n- Shorter teaser version of the YouTube topic.\n- Includes 2–3 hashtags.\n\nX TEXT:\n- Hook-style sentence under 200 characters.\n\nHASHTAGS:\n- 8–12 relevant hashtags total.\n\nGENERAL RULES:\n- Professional, educational, promotional tone.\n- No emojis.\n- No markdown.\n- No commentary.\n- No filler text.\n\nOUTPUT ONLY valid JSON with EXACTLY these keys:\n\n{\n  \"refinedIdea\": \"string\",\n  \"category\": \"one_of_the_allowed_values\",\n  \"title\": \"string\",\n  \"youtubeDescription\": \"string\",\n  \"instagramCaption\": \"string\",\n  \"xText\": \"string\",\n  \"hashtags\": \"string\"\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -2080,
+        2672
+      ],
+      "id": "e15bc7ca-2a56-41b8-9c27-c418c4f0bdf6",
+      "name": "Content Strategist"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Store the Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Creative Director – Video Strategy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store the Video": {
+      "main": [
+        []
+      ]
+    },
+    "Upload a video": {
+      "main": [
+        []
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Creative Director – Video Strategy",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Creative Director – Video Strategy",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Creative Director – Video Strategy": {
+      "main": [
+        [
+          {
+            "node": "Open Route by Video Category",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Open Route by Video Category": {
+      "main": [
+        [
+          {
+            "node": "Educational Explainer – Planner",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Quick Tip – Planner",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Promo Ad – Planner",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Workflow Demo – Planner",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Case Study – Planner",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Myth Busting – Planner",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Course Promo – Planner",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tool Comparison – Planner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Educational Explainer – Planner",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Quick Tip – Planner",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Promo Ad – Planner",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Workflow Demo – Planner",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Case Study – Planner",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Myth Busting – Planner",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model9": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Course Promo – Planner",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model10": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Tool Comparison – Planner",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Educational Explainer – Planner",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser3": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Quick Tip – Planner",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser4": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Promo Ad – Planner",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser5": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Workflow Demo – Planner",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser6": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Case Study – Planner",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser7": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Myth Busting – Planner",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser8": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Course Promo – Planner",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser9": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Tool Comparison – Planner",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clip Prompt Generator – Veo": {
+      "main": [
+        [
+          {
+            "node": "Content Strategist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Educational Explainer – Planner": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Quick Tip – Planner": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Promo Ad – Planner": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Workflow Demo – Planner": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Case Study – Planner": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Myth Busting – Planner": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "Course Promo – Planner": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 6
+          }
+        ]
+      ]
+    },
+    "Tool Comparison – Planner": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 7
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Clip Prompt Generator – Veo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model11": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Clip Prompt Generator – Veo",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser10": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Clip Prompt Generator – Veo",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate a video": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Upload a video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Content Strategist",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Content Strategist",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content Strategist": {
+      "main": [
+        [
+          {
+            "node": "Generate a video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "89b8f24c-5f73-4ebc-bbad-6e284ba1e254",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "23ba3ab6372b989322c7c1598e8150e6a955c2f7e518d62cdde5e77bee082320"
+  },
+  "id": "ujql2uiOr5v7jBcVSXaNr",
+  "tags": []
+}

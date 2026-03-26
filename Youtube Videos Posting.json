@@ -1,0 +1,463 @@
+{
+  "name": "Youtube Videos Posting",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 15 * * 2,5"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1232,
+        96
+      ],
+      "id": "c1347bc9-d21a-4146-803d-b0c9f89ca119",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.apify.com/v2/acts/pintostudio~youtube-transcript-scraper/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "YOUR_APIFY_TOKEN"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"videoUrl\": \"https://www.youtube.com/watch?v={{ $json.items[0].id.videoId }}\"\n}",
+        "options": {}
+      },
+      "id": "d6a54ffd-a4b0-4509-8faf-0017fe0e4ee8",
+      "name": "Get Transcript",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -464,
+        96
+      ],
+      "typeVersion": 4.2,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        400,
+        288
+      ],
+      "id": "f48564c1-46e8-4003-a63b-eefbdf5dfbf8",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        848,
+        192
+      ],
+      "id": "3888481a-5f35-43e0-81ad-267cd6818706",
+      "name": "OpenAI Chat Model1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1200,
+        272
+      ],
+      "id": "5d7f37cb-cc5e-4f7a-85ed-5851b6213d60",
+      "name": "OpenAI Chat Model2"
+    },
+    {
+      "parameters": {
+        "content": "## Get Youtube Video Transcript",
+        "height": 360,
+        "width": 560,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -848,
+        -32
+      ],
+      "id": "27603f4f-2f82-4309-941a-7b29d91752cb",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/youtube/v3/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "part",
+              "value": "snippet"
+            },
+            {
+              "name": "channelId",
+              "value": "UC4-geHamo87m59mtejbJWqg"
+            },
+            {
+              "name": "maxResults",
+              "value": "1"
+            },
+            {
+              "name": "order",
+              "value": "date"
+            },
+            {
+              "name": "type",
+              "value": "video"
+            },
+            {
+              "name": "key",
+              "value": "AIzaSyA0Zc8uUZedsXfa5WM6y8rFa3zIVZwFZ7Q"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -768,
+        96
+      ],
+      "id": "6c197d73-2668-4943-84e1-2ab0719ae483",
+      "name": "Get The Latest Youtube Video"
+    },
+    {
+      "parameters": {
+        "content": "## Run Every Tuesday & Friday at 3 PM",
+        "height": 360,
+        "width": 560,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1440,
+        -32
+      ],
+      "id": "c0791399-b527-4dd0-a328-0733d6a03576",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Based on the following youtube transcript, create for me the best Facebook Post:\n\n{{ $json.transcript }}\n\nVideo Link: https://www.youtube.com/watch?v={{ $('Get The Latest Youtube Video').item.json.items[0].id.videoId }}\n",
+        "options": {
+          "systemMessage": "=** Purpose **\nThis assistant is designed to generate marketing content tailored to your style and requirements. It will create:\n\nAn email with a compelling title and engaging content for Facebook announcements.\nA Facebook group post crafted to increase engagement and resonate with your audience.\nThe content will be based on the transcript provided and your established writing style (examples provided in the GPT's knowledge).\n\n** Capabilities **\n- Analyze the provided transcript to extract key points, tone, and messaging.\n- Create a concise and compelling email title designed to maximize open rates.\n- Write an engaging Udemy email with a friendly and professional tone.\n- Craft a conversational and engaging Facebook group post designed to spark discussions and attract interactions.\n- Adapt to your specific style by referencing past examples for tone and structure.\n- Suggest call-to-actions (CTAs) tailored to your goals (e.g., course sign-ups, group engagement).\n\n** Interaction Style **\n- Write in a conversational yet professional tone.\n- Use simple, clear, and engaging language.\n- Focus on actionable and inspiring messaging.\n- Avoid overly promotional language; instead, highlight value and benefits.\n- Always highlight the title of the post as a H1 format\n- When there is a text \"NAD\" or \"Naden\" it means always n8n - always type n8n\n- if there is a youtube link to attach, take the link provided\n\nFor Facebook post, follow the following title form:\n(emoij) FREE TUTORIAL: (title) (emoij) CHECK THE DESCRIPTION 👇\n\nBetween each paragraph add an \"*\"sign as a space. For example:\n\nParagraph 1:\n*\nParagraph 2:\n\nAfter the entire content you create, in new block, add sentence: \"👉 CHECK IT HERE:\"\n\nExample Posts Form:\n\nPost 1:\n\n📹 FREE TUTORIAL: How I Built a Fully Automated YouTube Channel with AI 🤖 CHECK THE DESCRIPTION 👇\n\n*\nEver dreamed of growing a YouTube channel without recording a single video yourself?\n*\nIn this brand-new tutorial, I show you how I created a 100% automated YouTube system using AI. It writes the script, generates voiceovers, adds visuals & music - and even uploads videos daily!\n*\n✅ No editing\n✅ No filming\n✅ No recurring effort\n*\nI’ll walk you through the exact tools and templates I used, including:\n🔥 ChatGPT for content generation\n🔥 Google Sheets to manage ideas\n🔥 JSON to Video for production\n🔥 Full automation with N8N\n*\nIf you want to grow multiple YouTube channels on autopilot, this is a must-watch.\"\n\nPost 2:\n\n🎬 FREE TUTORIAL: Create VIRAL YouTube Shorts with AI Automation 🤖 CHECK THE DESCRIPTION 👇\n*\nHey AI Enthusiasts!\n\nJust dropped a full walkthrough on how I’m using automation + AI to create daily viral YouTube Shorts – no filming, no editing, no hassle. 💥\n*\nIn this tutorial, I’ll show you:\n✅ How to generate ideas with ChatGPT\n✅ How to use cutting-edge tools like PiAPI, ElevenLabs & Creatomate\n✅ How to add voiceovers with ElevenLabs\n✅ How to schedule and publish with just one click\n*\nThe best part? I’ve included the exact template you can import right into your workflow – so you don’t need to build anything from scratch. 🎁\n*\nBest,\nKrystian\n\nPost 3:\n🎬 FREE TUTORIAL: Create Viral Story Videos with AI (FULL SYSTEM) 💥 CHECK THE DESCRIPTION 👇\n\n*\nWant to learn how to automatically create stunning story videos like the ones trending on Reels, TikTok, and Shorts?\n*\nIn this free step-by-step tutorial, I’ll show you how to use:\n🎨 GPT-4o for stunning visuals\n🎥 Runway for cinematic video generation\n🎙️ ElevenLabs for lifelike voiceovers\n⚙️ And a fully automated workflow using N8N & Google Sheets\n*\nOh - and you’ll get a FREE downloadable template so you can start instantly. Just plug and play!\n*\nThis is perfect if you want to grow your channel, build content at scale, or just geek out with awesome AI tools.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        464,
+        96
+      ],
+      "id": "9bfcbf09-8544-4df5-bf5a-63aa280d0e12",
+      "name": "Facebook Post"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst transcriptStrings = items.flatMap(item => {\n  const dataArray = item.json.data;\n\n  if (!dataArray || !Array.isArray(dataArray)) {\n    return [];\n  }\n\n  const segmentTexts = dataArray.map(segment => {\n      if (segment && typeof segment.text === 'string') {\n          return segment.text;\n      } else {\n          return '';\n      }\n  });\n\n  return segmentTexts;\n});\n\nconst transcript = transcriptStrings.join(' ');\n\nreturn [\n  {\n    json: {\n      transcript: transcript,\n    },\n  },\n];"
+      },
+      "id": "f3d4a62f-4fca-4df0-8474-d598b81c0b15",
+      "name": "Adjust Transcript Format",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        -64,
+        96
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Based on the following youtube transcript, create for me the best Email Campaign:\n\n{{ $('Adjust Transcript Format').item.json.transcript }}\n\nVideo Link: https://www.youtube.com/watch?v={{ $('Get The Latest Youtube Video').item.json.items[0].id.videoId }}",
+        "options": {
+          "systemMessage": "=** Purpose **\n\nThis assistant is designed to generate high-converting email marketing content tailored to your audience and communication style. It will create:\n\n- A compelling email subject line that increases open rates\n\n- A well-structured promotional email with engaging, friendly, and professional copy\n\n- Optional CTA prompts to increase clicks and course sign-ups\n\nThe content will be based on your provided transcript and your established email style (examples provided in the assistant’s knowledge).\n\n\n** Capabilities **\n\n- Analyze transcripts to extract the main topic, benefits, and tone\n\n- Create engaging subject lines that stand out in crowded inboxes\n\n- Write concise, value-focused marketing emails designed to drive course interest, views, or group participation\n\n- Adjust tone and format depending on the platform (Udemy internal emails, newsletters, etc.)\n\n- Include natural calls-to-action (e.g., “Watch the full tutorial,” “Try it now,” “Join the discussion”)\n\n- Adapt copy length based on campaign type (short teaser vs. full announcement)\n\n- When there is a text \"NAD\" or \"Naden\" it means always n8n - always type n8n\n\n- if there is a youtube link to attach, take the link provided\n\n\n** Interaction Style **\n\n- Use a warm, friendly-professional tone\n\n- Write clearly, without jargon\n\n- Focus on the value and benefits for the reader\n\n- Keep it simple, bold, and inspiring\n\n- Avoid duplicating URLs\n\n- When there is a text \"NAD\" or \"Naden\" it means always n8n - always type n8n\n\n\n\n** Email Structure Template **\n\n\n----------- ✅ Example Email 1 – Full Tutorial Launch ------------\n\nSubject:\n📧 Automate Your YouTube Channel – Without Filming or Editing\n\nBody:\nHey 👋\n\nImagine growing a full YouTube channel… without recording a single video yourself.\n\nIn my latest tutorial, I show you how I built a 100% automated system that does all the work for me:\n✅ Writes scripts with ChatGPT\n✅ Generates voiceovers with ElevenLabs\n✅ Creates videos with JSON-to-Video\n✅ Uploads everything daily using n8n\n\nI walk you through the entire setup, step-by-step.\nPlus, I’ve included the exact templates I use—so you don’t need to start from scratch.\n\n👉 Watch the full tutorial here: [insert link]\n\nTalk soon,\nKrystian\n\n💡 Improvement built-in: Avoid starting with \"I just dropped…\" in every email. This one starts with a benefit-focused hook.\n\n\n--------- ✅ Example Email 2 – AI Shorts System ----------\n\nSubject:\n📧 Create Daily Viral YouTube Shorts Using AI (No Editing Needed)\n\nBody:\nHi ,\n\nWant to build a YouTube channel fast—without filming or editing?\n\nThis new tutorial shows how I use AI + automation to publish high-performing Shorts daily.\nYou’ll learn exactly how to:\n✅ Generate ideas with ChatGPT\n✅ Turn them into videos using Creatomate\n✅ Add voiceovers with ElevenLabs\n✅ Schedule and post everything with one click\n\nNo fluff. No unnecessary steps.\nJust a clean, repeatable system you can use right away.\n\n👉 Try it here: [insert link]\n(And grab the template inside.)\n\nSee you there,\nKrystian\n\n💡 Improvement built-in: Highlights \"no fluff\" and \"repeatable system\" to boost clarity and value perception.\n\n----------✅ Example Email 3 – Story Video System ----------\n\nSubject:\n📧 NEW: The Full System I Use to Create Viral Story Videos Automatically\n\nBody:\nHi,\n\nStory-style videos are blowing up right now—on Reels, TikTok, Shorts, everywhere.\n\nAnd now, I’ve built a system that creates them for me using just a few AI tools.\n\nHere’s what you’ll see in the walkthrough:\n✅ GPT-4o for story scripts\n✅ Runway for cinematic visuals\n✅ ElevenLabs for ultra-realistic voiceovers\n✅ Full automation with n8n + Google Sheets\n\nOh—and I added a free template so you can start instantly.\nIf you want to scale content creation or just test a new style, this is the perfect starting point.\n\n👉 Watch the full tutorial + download everything here: [insert link]\n\nBest,\nKrystian\n\n💡 Improvement built-in: Uses storytelling language in the intro to match the topic and create emotional connection.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        864,
+        -16
+      ],
+      "id": "468a3a32-9c33-4309-8c1d-fcddfd0b58fe",
+      "name": "Email Campaign"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Based on the following youtube transcript, create for me the best Skool Post:\n\n{{ $('Adjust Transcript Format').item.json.transcript }}\n\nVideo Link: https://www.youtube.com/watch?v={{ $('Get The Latest Youtube Video').item.json.items[0].id.videoId }}",
+        "options": {
+          "systemMessage": "=** Purpose **\n\nThis assistant is designed to generate Skool community announcements that are clear, engaging, and drive members to take action. It will create:\n\n- Posts that announce new YouTube videos, tutorials, or external content\n\n- Skimmable, benefit-focused updates tailored for either AI Enthusiasts (free) or AI Masters (premium)\n\n- Content that sounds like a natural group update — not a newsletter or corporate email\n\n\n** Capabilities **\n\n- Analyze your transcript or update message to extract the core value\n\n- Generate a post with a direct, catchy title in H1 format\n\n- List 3–4 benefits or tools included in the tutorial\n\n- Adapt tone slightly depending on the group (more relaxed for free, more refined for premium)\n\n- Add a light CTA at the end to comment, ask questions, or try the method\n\n- Always highlight what the member will gain or learn\n\n- When there is a text \"NAD\" or \"Naden\" it means always n8n - always type n8n\n\n\n\n** Interaction Style **\n\n- Friendly, motivating, and clear\n\n- Keep it short, easy to read, and to the point\n\n- Use a conversational tone, like talking directly to your group\n\n- Use light emojis to add energy (but not overdo it)\n\n- Avoid sounding like a sales pitch — focus on helping and sharing value\n\n- Use short sentences and bullet points to boost clarity\n\n- When there is a text \"NAD\" or \"Naden\" it means always n8n - always type n8n\n\n- Don't add \"#\" sign before title\n\n- if there is a youtube link to attach, take the link provided\n\n- Avoid duplicating URLs\n\n\n** Format Template **\n\nTitle\n🔥 NEW VIDEO: [Tutorial/Benefit Name]\n\nBody:\nHey [group name]! 👋\n\nJust published a brand-new YouTube tutorial – and it’s a good one.\n\nHere’s what you’ll learn:\n✅ [Tool or step 1]\n✅ [Tool or step 2]\n✅ [Tool or step 3]\n\nIt’s perfect if you want to [save time / create better content / automate more, etc.].\n🎥 Watch it here → [Insert YouTube link]\n\n👇 Let me know if you have any questions – happy to help!\n– Krystian\n\n** EXAMPLES **\n\n------- Example 1 – AI Enthusiasts\nTitle:\n🔥 NEW VIDEO: AI Shorts Automation System Using ChatGPT & Creatomate\n\nBody:\nHey AI Enthusiasts! 👋\n\nJust released a new YouTube tutorial showing how I automate viral Shorts with AI – no editing or filming required.\n\n✅ Generate daily ideas with ChatGPT\n✅ Convert text to visuals using Creatomate\n✅ Add voiceover + publish using n8n\n\nThis is one of my fastest content systems yet – super scalable.\n🎥 Watch the full tutorial here → [insert YouTube link]\n\n👇 Let me know what you think or how you'd use this in your own workflow.\n– Krystian\n\n------- Example 2 – AI Masters\nTitle:\n🔥 NEW VIDEO: My Full Automation System for YouTube Videos (Zero Filming)\n\nBody:\nHey AI Masters! 👋\n\nIf you want to grow a YouTube channel without filming anything, this one’s for you.\n\nIn today’s YouTube tutorial, I break down:\n✅ How I use ChatGPT to generate scripts\n✅ How ElevenLabs + JSON-to-Video create full video content\n✅ How n8n runs the whole thing hands-free\n\nSuper efficient, super fun to build.\n🎥 Watch it here → [insert YouTube link]\n\n👇 Any questions or ideas to improve it? Drop them below.\n– Krystian\n\n------- Example 3 – AI Enthusiasts\nTitle:\n⚡️ FREE TUTORIAL: Create Content Without Recording – Full AI Workflow\n\nBody:\nHey AI Enthusiasts! 👋\n\nEver wanted to make content without being on camera?\nThis new YouTube tutorial walks you through how I do it using only AI tools.\n\n✅ GPT-4 for ideas\n✅ Creatomate for visuals\n✅ ElevenLabs for voiceover\n✅ n8n to automate the process\n\n🎥 Watch it now → [insert YouTube link]\n\n👇 If you’d try this for Instagram, TikTok, or YouTube, tell me below!\n– Krystian\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1264,
+        64
+      ],
+      "id": "d54a0d7b-4981-4c0e-af28-2bb91177b1be",
+      "name": "Skool Announcement"
+    },
+    {
+      "parameters": {
+        "content": "## Transform Transcript into a Text String",
+        "height": 360,
+        "width": 460
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -32
+      ],
+      "id": "ce77433d-0585-45e5-b41c-f180e88efa5d",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "203ccdb2-3d99-802b-946f-df6be0db4d0f",
+          "mode": "list",
+          "cachedResultName": "Youtube Videos Posts",
+          "cachedResultUrl": "https://www.notion.so/203ccdb23d99802b946fdf6be0db4d0f"
+        },
+        "title": "=",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Video Name|title",
+              "title": "={{ $('Get The Latest Youtube Video').first().json.items[0].snippet.title }}"
+            },
+            {
+              "key": "Facebook Post|rich_text",
+              "textContent": "={{ $('Facebook Post').item.json.output }}"
+            },
+            {
+              "key": "Email Campaign|rich_text",
+              "textContent": "={{ $('Email Campaign').item.json.output }}"
+            },
+            {
+              "key": "Skool Announcement|rich_text",
+              "textContent": "={{ $('Skool Announcement').item.json.output }}"
+            },
+            {
+              "key": "Udemy Announcement|rich_text",
+              "textContent": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1856,
+        112
+      ],
+      "id": "ece7cc83-9d0e-4592-86e5-c6aced092fc0",
+      "name": "Notion"
+    },
+    {
+      "parameters": {
+        "content": "# Create Posts",
+        "height": 660,
+        "width": 1380,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        256,
+        -176
+      ],
+      "id": "1d70cf70-7cf6-480d-8d65-ab23f9a8e60b",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Save Posts inside Database",
+        "height": 360,
+        "width": 460,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        -32
+      ],
+      "id": "b44c364b-a164-4477-93ef-8f4c42c2f9e3",
+      "name": "Sticky Note4"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Get The Latest Youtube Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Transcript": {
+      "main": [
+        [
+          {
+            "node": "Adjust Transcript Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Facebook Post",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Email Campaign",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Skool Announcement",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get The Latest Youtube Video": {
+      "main": [
+        [
+          {
+            "node": "Get Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Post": {
+      "main": [
+        [
+          {
+            "node": "Email Campaign",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Adjust Transcript Format": {
+      "main": [
+        [
+          {
+            "node": "Facebook Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Campaign": {
+      "main": [
+        [
+          {
+            "node": "Skool Announcement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skool Announcement": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "b9675b40-e8e3-4b9f-8517-90e0140c75f8",
+  "meta": {
+    "instanceId": "23ba3ab6372b989322c7c1598e8150e6a955c2f7e518d62cdde5e77bee082320"
+  },
+  "id": "sYrCzjXcFa81hicIiWBNm",
+  "tags": []
+}

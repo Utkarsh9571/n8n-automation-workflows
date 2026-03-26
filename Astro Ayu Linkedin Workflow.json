@@ -1,0 +1,1262 @@
+{
+  "name": "Astro Ayu Linkedin Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/images/generations",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-image-1"
+            },
+            {
+              "name": "prompt",
+              "value": "={{ $('Create Image Prompt').first().json.output }}"
+            },
+            {
+              "name": "size",
+              "value": "1024x1536"
+            },
+            {
+              "name": "quality",
+              "value": "high"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1344,
+        224
+      ],
+      "id": "3b95c361-5e22-4e21-8142-c0cb9ce97d38",
+      "name": "Generate Image",
+      "credentials": {
+        "openAiApi": {
+          "id": "JRtlCcGCaF2KMLXp",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=LinkedIn Post: \n{{ $json.output }}",
+        "options": {
+          "systemMessage": "=** Purpose **\n- You are an AI agent designed to convert LinkedIn posts into visual prompt descriptions. These prompts guide the creation of compelling marketing graphics that visually enhance the written message and align with professional branding standards.\n\n\n** Goals **\n\n- Analyze the content of the LinkedIn post\n- Identify the core message, insight, or idea\n- Craft a visual prompt that represents the message in a striking and brand-consistent way\n- Ensure the prompt is ideal for generating a professional marketing-style graphic, not a literal or hyperrealistic image\n\n\n** Visual Criteria **\nYour graphic prompt must:\n\n- Visually support or represent the key idea from the post\n- Be suitable for a modern LinkedIn post (clean, professional, polished)\n- Reflect a current design aesthetic (flat, minimalist, creative, sharp)\n\n\n** Output Requirements **\n\n- Output only the final image prompt — no explanation, rephrasing of the post, or surrounding text\n- Never include placeholders like \"Header goes here\"\n- Include numeric stats or figures if present in the original post\n- Do not include quotation marks around the prompt\n- Output should be ready to use in a text-to-image tool\n\n\n** Design Style & Elements **\nThink like a professional brand designer or marketing creative. Your visual prompts may include:\n\n- Flat illustrations\n- Bold or minimal typography elements (described in the prompt)\n- Infographic components (charts, graphs, percentages)\n- Modern abstract shapes or gradients\n- Metaphors (e.g., lightbulb for ideas, mountain for growth)\n- Layout suggestions (e.g., “split-screen layout,” “centered title with subtle overlay”)\n\nOptional: soft shadows, motion-like lines, UI-style elements\n\n\n** Prompt Format Example **\nModern flat-design illustration of a glowing lightbulb emerging from a maze, symbolizing innovation through complexity. Clean background with soft gradient, top-right space for headline text, subtle data overlay on the left side."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1088,
+        752
+      ],
+      "id": "3e8b8b56-230e-4900-93b4-b0fd8e583a90",
+      "name": "Create Image Prompt"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Post Keyword:{{ $json.Keywords }}",
+        "options": {
+          "systemMessage": "=** Purpose **\nCreate high-impact LinkedIn posts that are professional, insightful, and designed to grow our LinkedIn presence. Each post is built around a specific keyword provided by the user.\n\n** How It Works **\nWhen you receive a keyword, follow this process:\n\n1. Research & Contextualize\n\n- Treat the keyword as the core focus of the post.\n- Build around it using relevant facts, statistics, case studies, or market trends.\n- Make sure the post delivers clear value to a professional audience.\n\n2. Write the Post\n\n- Begin with a strong hook to grab attention immediately.\n- Maintain a confident, professional tone throughout.\n- Use short paragraphs and logical flow to ensure readability.\n- Deliver educational or actionable insights — teach, inspire, or provoke thought.\n- Use emojis only if they enhance clarity or tone (keep them minimal and relevant).\n- Credit sources properly (e.g., “according to McKinsey…”).\n- End with a compelling call to action (e.g., invite opinions, shares, or discussion).\n- Add a few smart, keyword-specific hashtags to improve reach and visibility.\n\n** Output Rules **\n\n- Only output the final LinkedIn post.\n- Do not explain the post or describe the steps taken.\n- Avoid quotation marks unless part of a cited statement.\n- Keep formatting natural and LinkedIn-appropriate (no markdown or styling notes).\n- Don't provide line breaks or new lines, just give plain text, don't use /n\n\n** Sample Use Case **\n\nKeyword: warehouse automation ROI\n\n- You create a polished LinkedIn post with a sharp hook, real data or success stories, and a CTA — all centered on the keyword.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        368,
+        752
+      ],
+      "id": "9ca6ad26-e59a-4faf-9532-3b03f2a14cf6",
+      "name": "Create Linkdein Post Description"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data[0].b64_json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1504,
+        224
+      ],
+      "id": "cf7a68d0-449d-402b-a188-ce8068dfeb3c",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Description: {{ $('Create Linkdein Post Description').item.json.output }}",
+        "options": {
+          "systemMessage": "=** Overview **\nYour job is to create a clear & highly engaging title for the linkdein post based on it's description.\n\n- Don't use word \"title\" at the beginning, just provide plain title\n- Add one emoij at the end of the title"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        720,
+        752
+      ],
+      "id": "8424780a-0feb-4924-a3b0-08547f6d53e0",
+      "name": "Generate Title"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.xml",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        672
+      ],
+      "id": "54672a2f-e4bf-4940-bd6c-0417700f8961",
+      "name": "XML"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "toplevel.CompleteSuggestion",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        672
+      ],
+      "id": "4729fb88-d0c9-4332-b36f-cd5da29054da",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "39682071-f170-4e9b-8ec5-41be41214719",
+              "name": "Keywords",
+              "value": "={{ $json.suggestion.data }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -256,
+        672
+      ],
+      "id": "3da23f51-fa35-49a8-bce9-5dffe48044b3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        144,
+        752
+      ],
+      "id": "9c3eda53-cecf-466e-ac2c-7a140a42db95",
+      "name": "Loop Over Items",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1bJNk4GQgtEknbI33otdTspT1KWRQVu9mI55ABR-It68",
+          "mode": "list",
+          "cachedResultName": "One-Click Linkdein Post Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bJNk4GQgtEknbI33otdTspT1KWRQVu9mI55ABR-It68/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bJNk4GQgtEknbI33otdTspT1KWRQVu9mI55ABR-It68/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Post Title": "={{ $('Generate Title').item.json.output }}",
+            "Post Description": "={{ $('Create Linkdein Post Description').item.json.output }}",
+            "Post Image Prompt": "={{ $json.output }}",
+            "Status": "not published",
+            "Keyword": "={{ $('Edit Fields').item.json.Keywords }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Keyword",
+              "displayName": "Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Post Title",
+              "displayName": "Post Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post Description",
+              "displayName": "Post Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post Image Prompt",
+              "displayName": "Post Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image URL",
+              "displayName": "Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1376,
+        960
+      ],
+      "id": "103050f7-d6d2-4366-842a-fd1995dc272a",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cJSyRJfujnzRG2jD",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool to search the web. ",
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"query\": \"{searchTerm}\",\n  \"topic\": \"general\",\n  \"search_depth\": \"advanced\",\n  \"chunks_per_source\": 3,\n  \"max_results\": 1,\n  \"time_range\": null,\n  \"days\": 7,\n  \"include_answer\": true,\n  \"include_raw_content\": false,\n  \"include_images\": false,\n  \"include_image_descriptions\": false,\n  \"include_domains\": [],\n  \"exclude_domains\": []\n}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "searchTerm",
+              "description": "What the user is searching for"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        400
+      ],
+      "id": "484a6883-b8ed-429e-ac48-abefcea924e5",
+      "name": "Search Web",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "FZuGzxxg261JMaaj",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f33450a-7716-4966-873b-2013e50d470b",
+              "name": "Keywords",
+              "value": "={{ $json['[object Object]'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        224
+      ],
+      "id": "6702416e-556a-4782-9ad1-f2ceebda2885",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"keyword\": \"\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        944,
+        400
+      ],
+      "id": "6c3c9e00-85fe-4ede-8958-a9ffb5171091",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "description": "You are a filtering and reasoning assistant.\n\nReview the information gathered below. Your job is to:\n1. Make sure AI Agent used web search to decide which keyword and content is the most proper to pick\n2. Make sure the output format is only 1 choosen keyword\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        656,
+        400
+      ],
+      "id": "014266e7-9bbb-4826-be25-7361fb4e0e59",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cloudinary.com/v1_1/dfidczp14/image/upload",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "upload_preset",
+              "value": "n8n_uploads"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1664,
+        224
+      ],
+      "id": "c8d52c42-77e7-4b4a-9c2f-0246e9af9693",
+      "name": "Get Image URL"
+    },
+    {
+      "parameters": {
+        "url": "=https://google.com/complete/search?output=toolbar&gl=US&q={{ $json.chatInput }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -880,
+        672
+      ],
+      "id": "2ca11074-55ce-41b5-a77b-aade077fc08d",
+      "name": "Get Ideas"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Content: {{ $json.Keywords }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=** PURPOSE **\nFrom a list of generated LinkedIn post data (each including a keyword, post description, title, and image prompt), select the single most promising topic using real-time web insights. Return only the content associated with that one best-performing keyword.\n\n** HOW IT WORKS **\nWhen you receive a long block of input containing multiple LinkedIn post entries (each with a keyword, post description, title, and image prompt), follow this process:\n\n1. Identify All Keywords\n- Extract all keywords from the provided content.\n- Each keyword represents a separate post entry.\n\n2. Evaluate Keywords Using Web Search\nFor each keyword, perform a real-time search using the Tavily tool.\nEvaluate the keyword's:\n\n- Current relevance\n- Trend potential\n- Virality and engagement potential in a business/professional context\n\nGive priority to:\n\n- Topics gaining traction in the news or social platforms\n- Use cases with real stats, success stories, or market relevance\n- Keywords that align with LinkedIn’s professional audience\n\n3. Select the Best Topic\n\n- From all entries, select only one keyword that is the most likely to perform well on LinkedIn right now.\n- Do not generate new content — use the existing title, post description, and image prompt linked to that keyword.\n\n** OUTPUT FORMAT **\nReturn a single, final output in the following structure:\n\n\nKeyword: [the chosen keyword]  \nTitle: [the original title]  \nPost Description: [the original post description]  \nImage Prompt: [the original image prompt]\n\n** DO NOT **\n\nReturn multiple results\n\nExplain your choice\n\nAdd formatting or markdown\n\nInclude extra commentary\n\n** EXAMPLE USE CASE **\n- You receive a block of text with 10 post entries, each including:\n\nKeyword: AI in healthcare, Remote leadership, Green supply chains, etc.\nCorresponding title, post, and image prompt for each.\n\n- You:\n\n- Perform a web search for each keyword\n- Decide that \"AI in healthcare\" has the highest viral potential today\n- Return:\n\nKeyword: \"AI in healthcare\"  \n\n**J SON Output Format **  \n\nOnly return the following JSON structure (no extra text):\n\n{\n  \"keyword\": \"\"\n}\n\n** Formatting Rules **\nTo make sure the output works inside JSON, follow these simple rules:\n\n- don't use emoijs in the text\n- only provide text that is in proper JSON format\n- don't provide \"\" marks inside description\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        640,
+        224
+      ],
+      "id": "d617fdba-c7a1-4647-885c-8f7b94ec2567",
+      "name": "Choose 1 Keyword"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bJNk4GQgtEknbI33otdTspT1KWRQVu9mI55ABR-It68",
+          "mode": "list",
+          "cachedResultName": "One-Click Linkdein Post Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bJNk4GQgtEknbI33otdTspT1KWRQVu9mI55ABR-It68/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bJNk4GQgtEknbI33otdTspT1KWRQVu9mI55ABR-It68/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Keyword",
+              "lookupValue": "={{ $json.output.keyword }}"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1008,
+        224
+      ],
+      "id": "a6be2ec4-1911-47df-ba16-e20f6bacbfd6",
+      "name": "Search for Keyword's Content",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cJSyRJfujnzRG2jD",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "text": "Is the image provided high-quality, without any truncated text?\n\nRespond \"yes\" or \"no\".\n\n- Don't provide dot at the end of \"yes\" or \"no\" response",
+        "imageUrls": "={{ $json.url }}",
+        "simplify": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1824,
+        224
+      ],
+      "id": "47ce0f25-6c9c-4c9c-bf25-6b1c534d6bc6",
+      "name": "Analyze Image Quality",
+      "credentials": {
+        "openAiApi": {
+          "id": "JRtlCcGCaF2KMLXp",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5afff31d-7deb-4d0a-8a88-177094d3e9f5",
+              "leftValue": "={{ $json.choices[0].message.content }}",
+              "rightValue": "yes",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "e65bc194-a0d6-4658-9deb-3c34bcb90c0c",
+              "leftValue": "={{ $json.choices[0].message.content }}",
+              "rightValue": "Yes",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2000,
+        224
+      ],
+      "id": "89026c67-6177-4a2f-9c5d-dd7cb0a862b7",
+      "name": "If Image is"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://backend.blotato.com/v2/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"post\": {\n    \"target\": {\n      \"targetType\": \"linkedin\"\n    },\n    \"content\": {\n      \"text\": \"{{ $json.Content }}\",\n      \"platform\": \"linkedin\",\n      \"mediaUrls\": [\"{{ $('Get Image URL').first().json.url }}\"]\n    },\n    \"accountId\": \"3159\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2784,
+        208
+      ],
+      "id": "6ccfd268-f214-4733-9a25-4181597e1fb2",
+      "name": "Linkedin",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "FZuGzxxg261JMaaj",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "={{ $('Split Out').item.json.suggestion }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        240,
+        224
+      ],
+      "id": "df083581-540b-40da-97c8-61f5479ee6df",
+      "name": "Get The Enitre Content"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f33450a-7716-4966-873b-2013e50d470b",
+              "name": "Content",
+              "value": "={{ $('Generate Title').first().json.output }}. {{ $('Create Linkdein Post Description').first().json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2416,
+        208
+      ],
+      "id": "d9ee3a71-81d3-4ab1-887d-4fa870932b05",
+      "name": "Combine Title and Description"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1bJNk4GQgtEknbI33otdTspT1KWRQVu9mI55ABR-It68",
+          "mode": "list",
+          "cachedResultName": "One-Click Linkdein Post Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bJNk4GQgtEknbI33otdTspT1KWRQVu9mI55ABR-It68/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bJNk4GQgtEknbI33otdTspT1KWRQVu9mI55ABR-It68/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "published",
+            "Keyword": "={{ $('Google Sheets').first().json.Keyword }}"
+          },
+          "matchingColumns": [
+            "Keyword"
+          ],
+          "schema": [
+            {
+              "id": "Keyword",
+              "displayName": "Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Post Title",
+              "displayName": "Post Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Post Description",
+              "displayName": "Post Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Post Image Prompt",
+              "displayName": "Post Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image URL",
+              "displayName": "Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        3440,
+        208
+      ],
+      "id": "c6b447f6-345e-4820-b3d0-bcc19b2fbf5a",
+      "name": "Check Status to Published & Save Image URL",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cJSyRJfujnzRG2jD",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Inputs",
+        "height": 620,
+        "width": 1180,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        432
+      ],
+      "id": "6e2f8be1-3114-45b1-b3c5-208bc971c800",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Content Creation",
+        "height": 620,
+        "width": 1600
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        640
+      ],
+      "id": "876e354d-3932-436a-a599-bbf5adfe55f0",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Content Selection",
+        "height": 620,
+        "width": 1200,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ea1d9f94-c148-493e-a017-fdd064297608",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Image Generation",
+        "height": 620,
+        "width": 1020,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        0
+      ],
+      "id": "3f2deed1-c80a-4f90-b386-7f3a110cbbf6",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# Publish on Linkedin",
+        "height": 620,
+        "width": 800,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2256,
+        0
+      ],
+      "id": "36743df7-96dc-4173-806a-3043da03b4ae",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# Save Data",
+        "height": 620,
+        "width": 800,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3088,
+        0
+      ],
+      "id": "48edb43e-ec8b-471c-8560-9c2ec688403a",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        544,
+        400
+      ],
+      "id": "fe69f950-fdcd-43e0-9e25-cdfb6f750410",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1104,
+        672
+      ],
+      "id": "c63a1215-edb0-4b85-be4b-d1c18f9352a3",
+      "name": "Telegram Trigger",
+      "webhookId": "1e9ef3af-69c3-4482-850a-887b6f4b6d97",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVI0SJLxzasnOJ9k",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        320,
+        912
+      ],
+      "id": "60e99e25-56e9-416e-b9d2-960c43cbef53",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        704,
+        928
+      ],
+      "id": "91f64790-17e3-437e-9a8c-ce3be99edcc4",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        928
+      ],
+      "id": "c7da4725-268c-434e-a81e-fec53319ae4a",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Generate Image": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Image Prompt": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Linkdein Post Description": {
+      "main": [
+        [
+          {
+            "node": "Generate Title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Get Image URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Title": {
+      "main": [
+        [
+          {
+            "node": "Create Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "XML": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Get The Enitre Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Linkdein Post Description",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Web": {
+      "ai_tool": [
+        [
+          {
+            "node": "Choose 1 Keyword",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Choose 1 Keyword",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Choose 1 Keyword",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Choose 1 Keyword",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Image URL": {
+      "main": [
+        [
+          {
+            "node": "Analyze Image Quality",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Ideas": {
+      "main": [
+        [
+          {
+            "node": "XML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Choose 1 Keyword": {
+      "main": [
+        [
+          {
+            "node": "Search for Keyword's Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search for Keyword's Content": {
+      "main": [
+        [
+          {
+            "node": "Generate Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Image Quality": {
+      "main": [
+        [
+          {
+            "node": "If Image is",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Image is": {
+      "main": [
+        [
+          {
+            "node": "Combine Title and Description",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Generate Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Linkedin": {
+      "main": [
+        [
+          {
+            "node": "Check Status to Published & Save Image URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get The Enitre Content": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Title and Description": {
+      "main": [
+        [
+          {
+            "node": "Linkedin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Choose 1 Keyword",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Create Linkdein Post Description",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Title",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Create Image Prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "a4a2f701-5fbd-430d-88f4-e9d1ba1d7564",
+  "meta": {
+    "instanceId": "23ba3ab6372b989322c7c1598e8150e6a955c2f7e518d62cdde5e77bee082320"
+  },
+  "id": "kdd-4jwsQTQFx6OspXfaW",
+  "tags": []
+}

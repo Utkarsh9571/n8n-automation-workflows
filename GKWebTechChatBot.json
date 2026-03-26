@@ -1,0 +1,253 @@
+{
+  "name": "GKWebTechChatBot",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        400
+      ],
+      "id": "3b41043c-49ed-4f68-8aff-4a98d18515fe",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Mlfv5hRcN9FnU4FP",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const q = ($json.chatInput || \"\").toLowerCase();\n\nif (q.includes(\"close\")) {\n  return { reply_type: \"close\", assistant_reply: \"Goodbye 👋 Thanks for visiting GKWebTech!\" };\n}\n\nif (q.includes(\"restart\") || q === \"menu\" || q === \"hi\" || q === \"hello\") {\n  return {\n    reply_type: \"menu\",\n    assistant_reply: \"Hi 👋 I’m Ayuu. What would you like to explore?\",\n    menu: [\n      { title: \"Agency Services\", value: \"services\", link: \"/#services\" },\n      { title: \"Institute/Training\", value: \"institute\", link: \"/#institute\" },\n      { title: \"Portfolio\", value: \"portfolio\", link: \"/#portfolio\" },\n      { title: \"Contact Us\", value: \"contact\", link: \"/#contact\" }\n    ]\n  };\n}\n\nif (q.includes(\"services\")) {\n  return {\n    reply_type: \"menu\",\n    assistant_reply: \"Here are our Agency Services. You can also visit: /#services\",\n    menu: [\n      { title: \"Web Development\", value: \"Tell me about Web Development\", link: \"/#web-dev\" },\n      { title: \"SEO\", value: \"Tell me about SEO\", link: \"/#seo\" },\n      { title: \"Social Media Management\", value: \"Tell me about SMM\", link: \"/#social-media\" },\n      { title: \"Performance Ads\", value: \"Tell me about Meta/Google Ads\", link: \"/#ads\" },\n      { title: \"Automation Solutions\", value: \"Tell me about Automation\", link: \"/#automation\" },\n      { title: \"Back to Main Menu\", value: \"menu\" }\n    ]\n  };\n}\n\nif (q.includes(\"portfolio\")) {\n  return {\n    reply_type: \"menu\",\n    assistant_reply: \"Check our work here: /#portfolio\",\n    menu: [\n      { title: \"Agency Projects\", link: \"/#portfolio-agency\" },\n      { title: \"Institute Batches\", link: \"/#portfolio-institute\" },\n      { title: \"Case Studies\", link: \"/#case-studies\" },\n      { title: \"Back to Menu\", value: \"menu\" }\n    ]\n  };\n}\n\nif (q.includes(\"contact\")) {\n  return {\n    reply_type: \"contact\",\n    assistant_reply: \"You can reach us via:\",\n    contact_options: [\n      { title: \"Email Us\", action: \"mailto\", value: \"gkwebtech@gmail.com\" },\n      { title: \"Call Us\", action: \"tel\", value: \"+919876543210\" },\n      { title: \"Office Location\", action: \"maps\", query: \"Delhi,India\" }\n    ]\n  };\n}\n\nreturn { assistant_reply: null, reply_type: \"menu\" };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -192,
+        -112
+      ],
+      "id": "8258691c-e649-4bb9-ba45-e949c8fd197f",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2108a89f-0189-47e6-a9e0-9ffcc9577465",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "menu",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "381417c6-cbf3-42d0-aada-34be0ac22ebc",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "services",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "b74431b1-82fc-436f-a907-a52c114d1106",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "portfolio",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "85ee696e-e282-474a-9ef9-25d40740de93",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "contact",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "ce8d15fc-bb26-4ca5-89e3-c94cafe0190e",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "institute",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "30bbd1b0-1456-4a90-862e-5596d0be126b",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "restart",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "da875f81-45f6-41f5-b8a5-ea82aa13e61c",
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": "close",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -416,
+        -112
+      ],
+      "id": "2194bced-f6ee-41a7-ba45-d0ea6f2f1af1",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -624,
+        64
+      ],
+      "id": "8818193d-9836-42c0-ae95-2b45e24d65b3",
+      "name": "When chat message received",
+      "webhookId": "ce2da385-28b9-47b5-8388-7200b0b0de2c"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are a ai assistant for the digital marketing agency gkwebtech, your name is Ayuu, answer the customers answers using the below context. \n{\n  \"brandInfo\": {\n    \"name\": \"GKWebTech\",\n    \"website\": \"https://gkwebtech.cloud\",\n    \"agencyType\": \"Full-Service Digital Marketing & Web Development Agency\",\n    \"primaryMarkets\": [\n      \"India\",\n      \"Netherlands\",\n      \"Global\"\n    ],\n    \"secondaryMarkets\": [\n      \"United States\",\n      \"Europe\"\n    ],\n    \"positioning\": \"Data-driven growth partners focusing on measurable ROI and scalable digital infrastructure.\",\n    \"tone\": \"Professional, Consultant, Data-Backed, Transparent, authoritative but accessible.\"\n  },\n  \"services\": {\n    \"SEO Optimization\": {\n      \"description\": \"Comprehensive search engine optimization focusing on technical health, on-page content, and authoritative backlink profiles to improve organic rankings.\",\n      \"whoItsFor\": \"Businesses seeking long-term organic traffic growth and improved search visibility.\",\n      \"engagementModel\": \"Monthly Retainer\",\n      \"availableAsPackage\": true,\n      \"standaloneAvailable\": true,\n      \"customOnly\": false\n    },\n    \"Social Media Marketing\": {\n      \"description\": \"Strategic management of social platforms to build community, increase brand awareness, and drive engagement through curated content.\",\n      \"whoItsFor\": \"Brands wanting to build a loyal audience and maintain active communication channels.\",\n      \"engagementModel\": \"Monthly Retainer\",\n      \"availableAsPackage\": true,\n      \"standaloneAvailable\": true,\n      \"customOnly\": false\n    },\n    \"Content Creation\": {\n      \"description\": \"Production of high-quality assets including blogs, videos, graphics, and copy designed to educate, entertain, and convert audiences.\",\n      \"whoItsFor\": \"Companies needing consistent, high-value content for various marketing channels.\",\n      \"engagementModel\": \"Project-based or Retainer\",\n      \"availableAsPackage\": true,\n      \"standaloneAvailable\": true,\n      \"customOnly\": false\n    },\n    \"Google & Meta Ads\": {\n      \"description\": \"Paid advertising campaigns on Google (Search, Display) and Meta (Facebook, Instagram) optimized for high conversion and ROI.\",\n      \"whoItsFor\": \"Businesses looking for immediate traffic, lead generation, and sales acceleration.\",\n      \"engagementModel\": \"Retainer + Ad Spend\",\n      \"availableAsPackage\": true,\n      \"standaloneAvailable\": true,\n      \"customOnly\": false\n    },\n    \"Campaign Planning & Analytics\": {\n      \"description\": \"Strategic roadmap development and deep-dive data analysis to optimize marketing performance and budget allocation.\",\n      \"whoItsFor\": \"Organizations requiring data-backed insights to refine their marketing strategies.\",\n      \"engagementModel\": \"Project-based or Retainer\",\n      \"availableAsPackage\": true,\n      \"standaloneAvailable\": true,\n      \"customOnly\": false\n    },\n    \"Branding & Design\": {\n      \"description\": \"Creation of cohesive brand identities, including logos, visual guidelines, and marketing collateral.\",\n      \"whoItsFor\": \"Startups establishing their identity or established businesses rebranding for growth.\",\n      \"engagementModel\": \"Project-based\",\n      \"availableAsPackage\": true,\n      \"standaloneAvailable\": true,\n      \"customOnly\": false\n    },\n    \"Website Development\": {\n      \"description\": \"Custom-coded, high-performance websites built with modern technologies (Next.js, React) for speed, security, and scalability.\",\n      \"whoItsFor\": \"Businesses requiring bespoke functionality, superior performance, and unique design beyond template limitations.\",\n      \"engagementModel\": \"Project-based\",\n      \"availableAsPackage\": false,\n      \"standaloneAvailable\": true,\n      \"customOnly\": true\n    },\n    \"Website Management\": {\n      \"description\": \"Ongoing maintenance, security updates, and content management to ensure optimal website performance.\",\n      \"whoItsFor\": \"Companies wanting to outsource technical maintenance and ensure uptime.\",\n      \"engagementModel\": \"Monthly Retainer\",\n      \"availableAsPackage\": true,\n      \"standaloneAvailable\": true,\n      \"customOnly\": false\n    },\n    \"Marketing Automation\": {\n      \"description\": \"Implementation of automated workflows for email, CRM, and lead nurturing to save time and increase efficiency.\",\n      \"whoItsFor\": \"Teams looking to streamline operations and nurture leads automatically.\",\n      \"engagementModel\": \"Project-based or Retainer\",\n      \"availableAsPackage\": true,\n      \"standaloneAvailable\": true,\n      \"customOnly\": false\n    },\n    \"AI-Driven Workflows\": {\n      \"description\": \"Integration of AI tools to enhance productivity, content generation, and customer interaction processes.\",\n      \"whoItsFor\": \"Forward-thinking businesses aiming to leverage AI for competitive advantage.\",\n      \"engagementModel\": \"Project-based\",\n      \"availableAsPackage\": true,\n      \"standaloneAvailable\": true,\n      \"customOnly\": false\n    },\n    \"CRO & Funnel Optimization\": {\n      \"description\": \"Systematic testing and optimization of website elements and sales funnels to maximize conversion rates.\",\n      \"whoItsFor\": \"Businesses with existing traffic looking to increase lead volume and revenue.\",\n      \"engagementModel\": \"Project-based or Retainer\",\n      \"availableAsPackage\": true,\n      \"standaloneAvailable\": true,\n      \"customOnly\": false\n    }\n  },\n  \"pricingPhilosophy\": {\n    \"publicVisibility\": \"No fixed final prices are shown publicly to ensure accuracy and fairness.\",\n    \"methodology\": \"Transparent range-based pricing dependent on project scope, complexity, and specific deliverables.\",\n    \"webDevelopment\": \"Always custom-quoted due to the unique nature of requirements and tech stack.\",\n    \"addOns\": \"Additional features or expedited timelines will increase the base investment.\",\n    \"packages\": \"Standard packages include a defined set of base services; deviations require a custom quote.\",\n    \"finalization\": \"All final pricing is confirmed only after a strategy call and scope agreement.\",\n    \"billingDurations\": [\n      \"Monthly\",\n      \"Quarterly\",\n      \"One-time (Project-based)\"\n    ],\n    \"primaryCurrency\": \"INR\",\n    \"secondaryCurrencies\": [\n      \"EUR\",\n      \"USD\"\n    ],\n    \"bundlesVsCustom\": \"Bundles offer cost efficiency for standard needs; Custom solutions provide exact fit for complex requirements.\",\n    \"customBuilderAvailable\": true\n  },\n  \"packageTypes\": {\n    \"singleService\": {\n      \"purpose\": \"Focused solution for a specific need.\",\n      \"idealClient\": \"Businesses with a gap in a specific area (e.g., only need SEO).\",\n      \"includedServices\": \"One core service.\",\n      \"customizableElements\": [\n        \"Deliverable volume\",\n        \"Reporting frequency\"\n      ],\n      \"whenCustomQuoteRequired\": \"If requirements exceed standard tier limits.\"\n    },\n    \"growthBundles\": {\n      \"purpose\": \"Integrated approach to accelerate growth using multiple channels.\",\n      \"idealClient\": \"SMEs looking for a holistic marketing push.\",\n      \"includedServices\": \"Combination of SEO, Social Media, and Content.\",\n      \"customizableElements\": [\n        \"Channel mix\",\n        \"Content volume\"\n      ],\n      \"whenCustomQuoteRequired\": \"When adding significant custom functionality or extra channels.\"\n    },\n    \"multiServicePlans\": {\n      \"purpose\": \"Comprehensive digital management.\",\n      \"idealClient\": \"Brands outsourcing their entire digital marketing department.\",\n      \"includedServices\": \"Strategy, Execution, Analytics across multiple disciplines.\",\n      \"customizableElements\": [\n        \"All components\"\n      ],\n      \"whenCustomQuoteRequired\": \"Almost always, to align with business goals.\"\n    },\n    \"enterprisePlans\": {\n      \"purpose\": \"High-volume, complex, or multi-regional campaigns.\",\n      \"idealClient\": \"Large corporations or funded startups.\",\n      \"includedServices\": \"Full-suite agency services with dedicated account management.\",\n      \"customizableElements\": [\n        \"Fully bespoke\"\n      ],\n      \"whenCustomQuoteRequired\": \"Always.\"\n    },\n    \"customBuild\": {\n      \"purpose\": \"Unique projects not fitting standard categories.\",\n      \"idealClient\": \"Clients with specialized technical or creative needs.\",\n      \"includedServices\": \"Defined per scope of work.\",\n      \"customizableElements\": [\n        \"Everything\"\n      ],\n      \"whenCustomQuoteRequired\": \"Always.\"\n    }\n  },\n  \"customQuoteFlow\": {\n    \"steps\": [\n      \"User submits requirements\",\n      \"Initial automated estimate (range)\",\n      \"Strategy call booking\",\n      \"Final proposal presentation\",\n      \"Contract signing\"\n    ],\n    \"whatUserSees\": \"An estimated price range based on selected options.\",\n    \"whatIsNotFinal\": \"The online calculator result is an estimate, not a binding invoice.\",\n    \"emailConfirmation\": \"User receives a breakdown of their selected preferences and the estimated range.\",\n    \"internalNotification\": \"Admin receives full lead details including selected plan and addons.\",\n    \"salesFollowUp\": \"Team reviews requirements and prepares for the strategy call.\"\n  },\n  \"leadAndEmailSystem\": {\n    \"landingFormBehavior\": \"Captures contact details and intent; redirects to thank you/booking page.\",\n    \"pricingFormBehavior\": \"Calculates estimate; captures detailed project scope; triggers email summary.\",\n    \"databaseStorage\": \"Leads are stored in the admin database with full schema details.\",\n    \"internalEmailLogic\": \"Instant notification to agency admins with lead scoring/details.\",\n    \"clientConfirmationLogic\": \"Auto-responder confirms receipt and sets expectations for next steps.\",\n    \"futurePdfPlans\": \"Roadmap includes generating PDF proposals automatically from valid submissions.\"\n  },\n  \"seoInfrastructure\": {\n    \"canonicalDomain\": \"https://gkwebtech.cloud\",\n    \"wwwRedirect\": \"Redirects to non-www or canonical version as configured.\",\n    \"httpsEnforced\": \"Yes, SSL is mandatory.\",\n    \"sitemapDeployed\": \"Yes, dynamically generated at /sitemap.xml\",\n    \"searchConsoleSubmitted\": \"Yes\",\n    \"indexedPageTypes\": [\n      \"Services\",\n      \"Courses\",\n      \"Portfolio\",\n      \"Blogs\",\n      \"Pricing\",\n      \"Legal\"\n    ]\n  },\n  \"faqKnowledgeBase\": {\n    \"How much does SEO cost\": \"SEO pricing varies based on competition, current site health, and goals. We provide a custom range after a quick audit.\",\n    \"Do you show final prices\": \"No. We show estimated ranges. Final pricing is confirmed after understanding your specific context to ensure fairness.\",\n    \"Can I customize plans\": \"Yes, absolutely. Our packages are starting points. We can tailor any plan to fit your specific needs.\",\n    \"Is website included\": \"Website development is a separate, custom service unless explicitly bundled in a special comprehensive growth package.\",\n    \"Do you work internationally\": \"Yes, we serve clients globally, with a strong presence in India and the Netherlands.\",\n    \"Which currencies accepted\": \"We primarily accept INR, EUR, and USD.\",\n    \"When will someone contact me\": \"Typically within 24 business hours after you submit an inquiry.\",\n    \"Do you provide proposals\": \"Yes, after our initial discovery call, we provide a detailed proposal outlining strategy, scope, and investment.\",\n    \"Is automation included\": \"Basic automation is part of some packages; complex workflows are a separate service.\"\n  },\n  \"chatbotBehaviorRules\": {\n    \"neverGuessPricing\": \"Do not guess a price. Refer to the 'Starting at' ranges or the custom quote calculator.\",\n    \"neverPromiseDiscounts\": \"Do not authorize or promise discounts. Leave negotiation to the sales team.\",\n    \"alwaysExplainRanges\": \"Always clarify that online figures are estimates/ranges.\",\n    \"routeToProposalCall\": \"The primary goal is to get the user to book a strategy call or submit a detailed form.\",\n    \"askClarifyingQuestions\": \"If a user is vague, ask 1-2 clarifying questions to guide them to the right service.\",\n    \"toneGuidelines\": \"Helpful, professional, knowledgeable, but prudent regarding commitments.\",\n    \"avoidCompetitorTalk\": \"Focus on GKWebTech's value proposition; do not disparage competitors.\",\n    \"mentionPricingPage\": \"Direct users to the pricing page for a self-service estimate.\",\n    \"encourageCustomQuote\": \"For complex needs, strongly suggest the custom quote path.\"\n  },\n  \"updatePolicy\": {\n    \"whenToUpdateFile\": \"Whenever service offerings, base pricing structures, or brand positioning changes.\",\n    \"whoMaintainsIt\": \"Technical Team / Marketing Lead.\",\n    \"howOftenReviewed\": \"Quarterly review recommended.\"\n  }\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -176,
+        192
+      ],
+      "id": "611212cd-9c69-401f-a98f-25d52090c0dd",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "const r = $input.first().json;\n\nlet reply = r.output || r.assistant_reply || null;\n\n// If Gemini says it doesn't know, restart menu\nif (reply && reply.toLowerCase().includes(\"menu\")) {\n  return {\n    reply_type: \"menu\",\n    assistant_reply: \"I can help you explore 👇 What would you like?\",\n    menu: [\n      { title: \"Agency Services\", value: \"services\", link: \"/#services\" },\n      { title: \"Institute/Training\", value: \"institute\", link: \"/#institute\" },\n      { title: \"Portfolio\", value: \"portfolio\", link: \"/#portfolio\" },\n      { title: \"Contact Us\", value: \"contact\", link: \"/#contact\" }\n    ]\n  };\n}\n\nreturn {\n  assistant_reply: reply,\n  reply_type: \"generated\",\n  menu: null\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        176,
+        192
+      ],
+      "id": "657bab97-2f3d-4e68-a1ab-335cca5978d6",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        368,
+        -32
+      ],
+      "id": "a879d659-98dd-4cce-b79b-80a98404530d",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -80,
+        400
+      ],
+      "id": "f3b014aa-4cec-49ec-8963-b36169b342db",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "fec495b3-2e19-45f4-8cab-033937543fef",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "23ba3ab6372b989322c7c1598e8150e6a955c2f7e518d62cdde5e77bee082320"
+  },
+  "id": "2nTh-5hMCp33kjRMyozuf",
+  "tags": []
+}
